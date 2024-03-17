@@ -13,8 +13,8 @@ server:
 spring:
   security:
     user:
-      name: user
-      password: 123
+      name: admin
+      password: admin
   application:
     name: cs544-202403-project
   datasource:
