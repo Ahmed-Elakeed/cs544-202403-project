@@ -19,21 +19,22 @@ public class Member implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
-
-    private int barcode;
+    @Column(unique = true)
+    private Integer barcode;
 
     @ManyToMany
     @JoinTable(name = "member_roles",
-            joinColumns = { @JoinColumn(name = "member_id") },
-            inverseJoinColumns = { @JoinColumn(name = "role_id") }
+            joinColumns = {@JoinColumn(name = "member_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
     private List<Role> roles;
 
     @ManyToMany
     @JoinTable(name = "member_sessions",
-            joinColumns = { @JoinColumn(name = "member_id") },
-            inverseJoinColumns = { @JoinColumn(name = "session_id") }
+            joinColumns = {@JoinColumn(name = "member_id")},
+            inverseJoinColumns = {@JoinColumn(name = "session_id")}
     )
     private List<Session> sessions = new ArrayList<>();
 }
