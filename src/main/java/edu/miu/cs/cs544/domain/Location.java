@@ -19,5 +19,4 @@ public class Location implements Serializable {
     private String description;
     @Enumerated
     private LocationType locationType;
-
 }

@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Data
 @Entity(name = "badge_scanner")
 @Validated
-public class BadgeScanner implements Serializable {
+public class Scanner implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
