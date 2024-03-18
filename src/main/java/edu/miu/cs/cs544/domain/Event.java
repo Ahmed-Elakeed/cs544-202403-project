@@ -35,8 +35,5 @@ public class Event implements Serializable {
     )
     private List<Member> members = new ArrayList<>();
 
-    @OneToMany(mappedBy = "event",cascade = CascadeType.ALL)
-    private List<Session> sessions = new ArrayList<>();
-
 
 }

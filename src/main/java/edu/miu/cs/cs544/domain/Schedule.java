@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,4 +21,8 @@ public class Schedule implements Serializable {
     private String description;
     private LocalDate startDateTime;
     private LocalDate endDateTime;
+
+
+    @OneToMany(mappedBy = "schedule",cascade = CascadeType.ALL)
+    private List<Session> sessions = new ArrayList<>();
 }
