@@ -19,6 +19,4 @@ public class MemberPayload implements Serializable {
 	private String lastName;
 	private String email;
 	private int barcode;
-	private List<Role> roles;
-	private List<Account> accounts;
 }
