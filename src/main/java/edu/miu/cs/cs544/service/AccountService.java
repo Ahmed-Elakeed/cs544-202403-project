@@ -6,6 +6,4 @@ import edu.miu.cs.cs544.service.contract.AccountPayload;
 
 public interface AccountService extends BaseReadWriteService<AccountPayload, Account, Long>{
 
-//	Account create(AccountPayload payload);
-
 }

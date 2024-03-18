@@ -22,6 +22,4 @@ public class AccountPayload implements Serializable {
 	private String description;
 
 	private String accountType;
-	
-	private Long memberId;
 }

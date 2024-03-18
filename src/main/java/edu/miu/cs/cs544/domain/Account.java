@@ -22,8 +22,4 @@ public class Account implements Serializable {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
     
-    @ManyToOne
-    @JoinColumn(name = "memberid")
-    private Member member;
-
 }
