@@ -24,5 +24,6 @@ public class Schedule implements Serializable {
 
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "schedule_id")
     private List<Session> sessions = new ArrayList<>();
 }

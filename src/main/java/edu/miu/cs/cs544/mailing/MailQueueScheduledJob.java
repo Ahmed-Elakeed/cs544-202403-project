@@ -25,11 +25,11 @@ public class MailQueueScheduledJob {
 //    @Scheduled(cron = "0 0 9 * * *") // Runs daily at 9 AM
     public void memberAccountsBalanceChecker() {
         List<MemberPayload> members = this.memberService.findAll();
-        members.forEach(member -> member.getAccounts().forEach(account -> {
-            if (account.getId().equals(1L)) {
-                jmsTemplate.convertAndSend("mail-queue", member.getEmail());
-            }
-        }));
+//        members.forEach(member -> member.getAccounts().forEach(account -> {
+//            if (account.getId().equals(1L)) {
+//                jmsTemplate.convertAndSend("mail-queue", member.getEmail());
+//            }
+//        }));
     }
 
 
