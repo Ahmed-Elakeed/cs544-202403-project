@@ -1,5 +1,8 @@
 package edu.miu.cs.cs544.service.contract;
 
+import edu.miu.cs.cs544.domain.AccountType;
+import edu.miu.cs.cs544.domain.Event;
+import edu.miu.cs.cs544.domain.Location;
 import lombok.*;
 
 import java.io.Serial;
@@ -14,7 +17,7 @@ public class BadgeScannerPayload implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private Long id;
-    private String accountType;
-    private Long locationId;
-    private Long eventId;
+    private AccountType accountType;
+    private Location location;
+    private Event event;
 }
