@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import edu.miu.cs.cs544.service.MemberService;
 
+import java.time.LocalDate;
+
 @SpringBootApplication(scanBasePackages = {"edu.miu.common", "edu.miu.cs.cs544"})
 public class Application implements CommandLineRunner {
 
@@ -19,6 +21,8 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        LocalDate date = LocalDate.now();
+        System.out.println("current date: "+date);
         service.findAll().forEach(System.out::println);
     }
 

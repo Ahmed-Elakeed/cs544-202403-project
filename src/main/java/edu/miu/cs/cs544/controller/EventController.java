@@ -7,7 +7,6 @@ import edu.miu.cs.cs544.service.EventService;
 import edu.miu.cs.cs544.service.contract.EventPayload;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

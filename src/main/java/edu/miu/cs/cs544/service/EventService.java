@@ -7,7 +7,7 @@ import edu.miu.cs.cs544.service.contract.SessionPayload;
 
 import java.util.List;
 
-public interface EventService extends BaseReadWriteService<EventPayload, Event, Long> {
+public interface EventService extends BaseReadWriteService<EventPayload, Event, Long>{
 
      List<SessionPayload> getAllSessionsForEvent(Long eventId);
 
