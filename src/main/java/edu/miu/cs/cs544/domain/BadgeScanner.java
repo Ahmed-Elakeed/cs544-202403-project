@@ -16,11 +16,11 @@ public class BadgeScanner implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Location location;
-
     @Enumerated
     private AccountType accountType;
+
+    @OneToOne
+    private Location location;
 
     @OneToOne
     private Event event;
