@@ -4,7 +4,9 @@ import edu.miu.common.service.mapper.BaseMapper;
 import edu.miu.cs.cs544.domain.ScanRecord;
 import edu.miu.cs.cs544.service.contract.ScanRecordPayload;
 import ma.glasnost.orika.MapperFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ScanRecordToScanRecordPayload
         extends BaseMapper<ScanRecord, ScanRecordPayload> {
     public ScanRecordToScanRecordPayload(MapperFactory mapperFactory){
