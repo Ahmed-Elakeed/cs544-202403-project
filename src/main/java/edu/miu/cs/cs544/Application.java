@@ -1,17 +1,16 @@
 package edu.miu.cs.cs544;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import edu.miu.cs.cs544.service.MemberService;
+import org.springframework.jms.annotation.EnableJms;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication(scanBasePackages = {"edu.miu.common", "edu.miu.cs.cs544"})
+@EnableScheduling
+@EnableJms
 public class Application implements CommandLineRunner {
-
-    @Autowired
-    private MemberService service;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -19,7 +18,6 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        service.findAll().forEach(System.out::println);
     }
 
 }

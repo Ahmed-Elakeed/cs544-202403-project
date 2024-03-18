@@ -19,8 +19,8 @@ spring:
     name: cs544-202403-project
   datasource:
     url: jdbc:mysql://localhost:3306/attendance_system_db
-    password: SSjohn55Y$
-    username: enyonathan
+    password:
+    username: root
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximumPoolSize: 10
@@ -28,13 +28,25 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-#      naming:
-#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-#        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-        
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ahmed.elaked20@gmail.com
+    password: "pnzd qcoj gvgc rsrz"  # Ensure to enclose the password in double quotes
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 logging:
   level:
     root: INFO
