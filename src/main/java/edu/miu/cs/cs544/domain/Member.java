@@ -32,6 +32,13 @@ public class Member implements Serializable {
     private List<Role> roles;
 
     @ManyToMany
+    @JoinTable(name = "member_accounts",
+            joinColumns = {@JoinColumn(name = "member_id")},
+            inverseJoinColumns = {@JoinColumn(name = "account_id")}
+    )
+    private List<Account> accounts;
+
+    @ManyToMany
     @JoinTable(name = "member_sessions",
             joinColumns = {@JoinColumn(name = "member_id")},
             inverseJoinColumns = {@JoinColumn(name = "session_id")}
