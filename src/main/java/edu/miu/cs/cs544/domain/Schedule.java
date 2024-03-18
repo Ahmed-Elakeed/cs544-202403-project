@@ -23,6 +23,6 @@ public class Schedule implements Serializable {
     private LocalDate endDateTime;
 
 
-    @OneToMany(mappedBy = "schedule",cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Session> sessions = new ArrayList<>();
 }

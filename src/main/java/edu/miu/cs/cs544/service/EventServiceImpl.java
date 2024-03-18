@@ -31,7 +31,7 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
         if (eventOptional.isPresent()) {
             Optional<Session> sessionOptional = eventOptional.get()
-                    .getSessions()
+                    .getSchedule().getSessions()
                     .stream()
                     .filter(session -> session.getId().equals(sessionId))
                     .findFirst();
@@ -60,7 +60,7 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
             session.setStartDateTime(sessionPayload.getStartDateTime());
             session.setEndDateTime(sessionPayload.getEndDateTime());
             session.setEvent(event);
-            event.getSessions().add(session);
+            event.getSchedule().getSessions().add(session);
             this.eventRepository.save(event);
             return sessionPayload;
         }
@@ -72,8 +72,7 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
         if (eventOptional.isPresent()) {
             Event event = eventOptional.get();
-            Optional<Session> sessionOptional = event
-                    .getSessions()
+            Optional<Session> sessionOptional = event.getSchedule().getSessions()
                     .stream()
                     .filter(session -> session.getId().equals(sessionId))
                     .findFirst();
@@ -99,4 +98,12 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
         }
         throw new NotFoundException("This event not exist");
     }
+
+    @Override
+    public List<SessionPayload> getAttendanceForEvent(Long eventId) {
+        List<SessionPayload> sessionsList = this.eventRepository.fetchAllAttendedSessionForEvent(eventId);
+
+        return null;
+    }
+
 }
