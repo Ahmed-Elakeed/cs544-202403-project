@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BadgeScannerPayload implements Serializable {
+public class ScannerPayload implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private Long id;
