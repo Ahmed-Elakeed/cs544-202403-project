@@ -26,7 +26,7 @@ public class EventPayload implements Serializable {
     private LocalDate endDateTime;
 
 //    Todo -> discussion pending for schedule
-//  private Schedule schedule;
+    private Schedule schedule;
 
     private List<Member> members;
 }
