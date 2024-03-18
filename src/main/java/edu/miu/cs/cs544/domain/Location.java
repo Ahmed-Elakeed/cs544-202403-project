@@ -20,5 +20,4 @@ public class Location implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private LocationType locationType;
-
 }
