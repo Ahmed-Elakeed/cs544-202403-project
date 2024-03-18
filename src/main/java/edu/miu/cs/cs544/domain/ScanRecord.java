@@ -21,5 +21,5 @@ public class ScanRecord implements Serializable {
     @ManyToOne
     private Member recordOwner;
     @ManyToOne
-    private Scanner scanner;
+    private Scanner recordScanner;
 }

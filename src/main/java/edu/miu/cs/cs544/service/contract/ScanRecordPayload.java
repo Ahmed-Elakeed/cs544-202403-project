@@ -20,5 +20,5 @@ public class ScanRecordPayload implements Serializable {
     private Long id;
     private LocalDate scanDateTime;
     private Member recordOwner;
-    private Scanner scanner;
+    private Scanner recordScanner;
 }
