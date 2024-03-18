@@ -24,7 +24,7 @@ public class Member implements Serializable {
     @Column(unique = true)
     private Integer barcode;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "member_roles",
             joinColumns = {@JoinColumn(name = "member_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
