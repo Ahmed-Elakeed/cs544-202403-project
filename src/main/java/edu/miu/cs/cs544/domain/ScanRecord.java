@@ -18,9 +18,8 @@ public class ScanRecord implements Serializable {
     private Long id;
 
     private LocalDate scanDateTime;
-    @ManyToOne()
+    @ManyToOne
     private Member recordOwner;
     @ManyToOne
     private Scanner scanner;
-
 }

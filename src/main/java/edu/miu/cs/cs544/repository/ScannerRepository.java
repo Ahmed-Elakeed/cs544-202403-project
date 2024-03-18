@@ -7,7 +7,7 @@ import edu.miu.cs.cs544.domain.Scanner;
 import java.util.List;
 
 
-public interface BadgeScannerRepository
+public interface ScannerRepository
         extends BaseRepository<Scanner, Long> {
     List<Scanner> findBadgeScannerByAccountType(AccountType accountType);;
 }

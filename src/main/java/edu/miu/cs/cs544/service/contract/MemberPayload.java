@@ -20,5 +20,4 @@ public class MemberPayload implements Serializable {
 	private String email;
 
 	private int barcode;
-
 }
