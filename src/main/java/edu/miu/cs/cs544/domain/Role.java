@@ -22,4 +22,11 @@ public class Role implements Serializable {
     @ManyToMany(mappedBy = "roles")
     List<Member> members;
 
+    @ManyToMany
+    @JoinTable(name = "role_accounts",
+            joinColumns = {@JoinColumn(name = "role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "account_id")}
+    )
+    private List<Account> accounts;
+
 }
