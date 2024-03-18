@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/scanners")
-public class BadgeScannerController
+public class ScannerController
         extends BaseReadWriteController<ScannerPayload, Scanner, Long> {
 }
