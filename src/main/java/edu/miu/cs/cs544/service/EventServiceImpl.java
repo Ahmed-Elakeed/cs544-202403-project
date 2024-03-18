@@ -9,11 +9,10 @@ import edu.miu.cs.cs544.service.contract.EventPayload;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +30,7 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
         if (eventOptional.isPresent()) {
             Optional<Session> sessionOptional = eventOptional.get()
-                    .getSessions()
+                    .getSchedule().getSessions()
                     .stream()
                     .filter(session -> session.getId().equals(sessionId))
                     .findFirst();
@@ -54,13 +53,15 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
         if (eventOptional.isPresent()) {
             Event event = eventOptional.get();
+            List<Session> sessionList=new ArrayList<>();
             Session session = new Session();
             session.setName(sessionPayload.getName());
             session.setDescription(sessionPayload.getDescription());
             session.setStartDateTime(sessionPayload.getStartDateTime());
             session.setEndDateTime(sessionPayload.getEndDateTime());
             session.setEvent(event);
-            event.getSessions().add(session);
+            sessionList.add(session);
+            event.getSchedule().setSessions(sessionList);
             this.eventRepository.save(event);
             return sessionPayload;
         }
@@ -73,7 +74,7 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
         if (eventOptional.isPresent()) {
             Event event = eventOptional.get();
             Optional<Session> sessionOptional = event
-                    .getSessions()
+                    .getSchedule().getSessions()
                     .stream()
                     .filter(session -> session.getId().equals(sessionId))
                     .findFirst();
