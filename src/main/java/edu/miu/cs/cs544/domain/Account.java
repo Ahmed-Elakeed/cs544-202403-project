@@ -19,7 +19,11 @@ public class Account implements Serializable {
     private String name;
     private String description;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private AccountType accountType;
+    
+    @ManyToOne
+    @JoinColumn(name = "memberid")
+    private Member member;
 
 }
