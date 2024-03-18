@@ -1,5 +1,6 @@
 package edu.miu.cs.cs544.service.contract;
 
+import edu.miu.cs.cs544.domain.AccountType;
 import edu.miu.cs.cs544.domain.Member;
 import edu.miu.cs.cs544.domain.Schedule;
 import jakarta.persistence.Id;
@@ -25,8 +26,10 @@ public class EventPayload implements Serializable {
 
     private LocalDate endDateTime;
 
+
 //    Todo -> discussion pending for schedule
     private Schedule schedule;
 
     private List<Member> members;
+
 }

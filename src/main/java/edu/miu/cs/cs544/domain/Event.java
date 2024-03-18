@@ -23,13 +23,9 @@ public class Event implements Serializable {
     private LocalDate startDateTime;
     private LocalDate endDateTime;
 
-
-    // Todo ->  decide if event will contain one or many schedule
     @OneToOne
     private Schedule schedule;
 
     @OneToMany
     private List<Member> members = new ArrayList<>();
-
-
 }

@@ -9,4 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/events")
 public class EventController extends BaseReadWriteController<EventPayload, Event, Long> {
+
 }
