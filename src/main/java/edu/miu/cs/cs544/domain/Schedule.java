@@ -18,9 +18,11 @@ public class Schedule implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String description;
     private LocalDate startDateTime;
     private LocalDate endDateTime;
 
-    @OneToMany(cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "schedule",cascade = CascadeType.ALL)
     private List<Session> sessions = new ArrayList<>();
 }

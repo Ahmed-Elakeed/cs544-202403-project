@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -20,9 +20,13 @@ public class Session implements Serializable {
     private Long id;
     private String name;
     private String description;
-    private LocalDate startDateTime;
-    private LocalDate endDateTime;
+    private Date startDateTime;
+    private Date endDateTime;
 
     @ManyToMany(mappedBy = "sessions")
     private List<Member> members = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
 }

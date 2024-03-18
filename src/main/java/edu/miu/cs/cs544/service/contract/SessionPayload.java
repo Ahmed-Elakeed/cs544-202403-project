@@ -1,25 +1,21 @@
 package edu.miu.cs.cs544.service.contract;
 
-import edu.miu.cs.cs544.domain.Schedule;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Data
-public class EventPayload implements Serializable {
-
+@AllArgsConstructor
+public class SessionPayload implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     private Long id;
     private String name;
     private String description;
-    private LocalDate startDateTime;
-    private LocalDate endDateTime;
-
-
-    private Schedule schedule;
-
+    private Date startDateTime;
+    private Date endDateTime;
 }

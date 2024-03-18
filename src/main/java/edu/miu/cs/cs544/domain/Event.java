@@ -24,11 +24,15 @@ public class Event implements Serializable {
     private LocalDate endDateTime;
 
 
-    // Todo ->  decide if event will contain one or many schedule
+
     @OneToOne
     private Schedule schedule;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(name = "event_members",
+            joinColumns = {@JoinColumn(name = "event_id")},
+            inverseJoinColumns = {@JoinColumn(name = "member_id")}
+    )
     private List<Member> members = new ArrayList<>();
 
 

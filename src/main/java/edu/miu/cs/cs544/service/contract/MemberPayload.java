@@ -2,10 +2,6 @@ package edu.miu.cs.cs544.service.contract;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.List;
-
-import edu.miu.cs.cs544.domain.Account;
-import edu.miu.cs.cs544.domain.Role;
 import lombok.Data;
 
 @Data
