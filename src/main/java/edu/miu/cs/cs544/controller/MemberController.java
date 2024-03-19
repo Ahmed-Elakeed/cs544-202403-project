@@ -8,6 +8,7 @@ import edu.miu.cs.cs544.service.contract.MemberPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 
 
 @RestController
@@ -44,5 +45,10 @@ public class MemberController extends BaseReadWriteController<MemberPayload, Mem
     @GetMapping(path = "/{memberId}/attendance")
     public ResponseEntity<?> getAllSessionsForEvent(@PathVariable(value = "memberId") Long memberId) {
         return ResponseEntity.ok(this.memberService.getAttendence(memberId));
+    }
+
+    @GetMapping(path = "/{memberId}/events/{eventId}/attendance")
+    public ResponseEntity<?> attendanceForMemberByEvent(@PathVariable(value = "memberId") Long memberId,@PathVariable(value = "eventId") Long eventId){
+        return ResponseEntity.ok(this.memberService.attendanceForMemberByEvent(memberId,eventId));
     }
 }

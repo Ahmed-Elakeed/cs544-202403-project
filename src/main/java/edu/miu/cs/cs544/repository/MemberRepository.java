@@ -1,6 +1,12 @@
 package edu.miu.cs.cs544.repository;
 
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import edu.miu.common.repository.BaseRepository;
+import edu.miu.cs.cs544.domain.Event;
 import edu.miu.cs.cs544.domain.Member;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +27,7 @@ public interface MemberRepository extends BaseRepository<Member, Long>{
     void deleteRoleForMember(@Param(value = "memberId") Long memberId,@Param(value = "roleId") Long roleId);
     @Query(value = "select s from Session s left join fetch s.members m where m.id = :memberId")
     List<Session> fetchAllSessionForMember(@Param("memberId") Long memberId);
+    
+	@Query(value = "select e from Event e inner join fetch e.schedule s inner join s.sessions ss where e.id = :eventId")
+    List<Event> attendanceData(@Param(value = "eventId") Long eventId);	
 }
