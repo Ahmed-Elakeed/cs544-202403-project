@@ -117,7 +117,18 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
         }
         throw new NotFoundException("This event not exist");
     }
-
+    @Override
+    public List<SessionPayload> getAttendanceForEvent(Long eventId) {
+        Optional<Event> eventOptional = this.eventRepository.findById(eventId);
+        if (eventOptional.isPresent()) {
+            Event event = eventOptional.get();
+            return event.getSchedule().getSessions()
+                    .stream()
+                    .map(SessionMapper::toSessionPayload)
+                    .toList();
+        }
+        throw new NotFoundException("Event not exist");
+    }
     private LocalDate convertDateToLocalDate(Date date){
         Instant instant = date.toInstant();
 
