@@ -42,7 +42,7 @@ public class MemberRepositoryTests {
 		Session session2 = new Session();
 		session2.setName("Event 1 session 2");
 		session2.setDescription("Event 1 session 2");
-		entityManager.persist(session2);
+		
 		schedule.getSessions().add(session1);
 		schedule.getSessions().add(session2);
 		
@@ -54,8 +54,10 @@ public class MemberRepositoryTests {
         member.setFirstName("First Name");
         member.setLastName("Last Name");
         
-        member.getSessions().add(session2);
+        session2.getMembers().add(member);
         entityManager.persist(member);
+        
+        entityManager.persist(session2);
         
         entityManager.flush();
         
