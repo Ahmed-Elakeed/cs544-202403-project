@@ -20,4 +20,5 @@ public class Session implements Serializable {
     private String description;
     private Date startDateTime;
     private Date endDateTime;
+
 }

@@ -18,4 +18,6 @@ public interface EventService extends BaseReadWriteService<EventPayload, Event, 
      SessionPayload updateSessionInEvent(Long eventId, Long sessionId, SessionPayload sessionPayload);
 
      String deleteSessionFromEvent(Long eventId, Long sessionId);
+
+     List<SessionPayload> getAttendanceForEvent(Long eventId);
 }
