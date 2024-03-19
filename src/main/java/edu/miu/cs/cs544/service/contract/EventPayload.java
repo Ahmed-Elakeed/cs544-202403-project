@@ -21,6 +21,8 @@ public class EventPayload implements Serializable {
     private String description;
     private LocalDate startDateTime;
     private LocalDate endDateTime;
+
     private AccountType accountType;
+    private Schedule schedule;
 
 }
