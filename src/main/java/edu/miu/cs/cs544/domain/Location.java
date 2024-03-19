@@ -17,6 +17,7 @@ public class Location implements Serializable {
     private Long id;
     private String name;
     private String description;
-    @Enumerated
+
+    @Enumerated(EnumType.STRING)
     private LocationType locationType;
 }

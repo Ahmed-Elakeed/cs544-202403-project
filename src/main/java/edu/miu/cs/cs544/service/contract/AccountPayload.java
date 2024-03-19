@@ -4,10 +4,6 @@ import java.io.Serial;
 import java.io.Serializable;
 
 import edu.miu.cs.cs544.domain.AccountType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
@@ -21,5 +17,5 @@ public class AccountPayload implements Serializable {
 	
 	private String description;
 
-	private String accountType;
+	private AccountType accountType;
 }

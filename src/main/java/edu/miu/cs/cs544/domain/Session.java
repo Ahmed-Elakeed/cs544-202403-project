@@ -23,10 +23,10 @@ public class Session implements Serializable {
     private Date startDateTime;
     private Date endDateTime;
 
-    @ManyToMany(mappedBy = "sessions")
+    @ManyToMany
+    @JoinTable(name = "member_sessions",
+            inverseJoinColumns = {@JoinColumn(name = "member_id")},
+            joinColumns = {@JoinColumn(name = "session_id")}
+    )
     private List<Member> members = new ArrayList<>();
-
-    @ManyToOne
-    @JoinColumn(name = "event_id")
-    private Event event;
 }
