@@ -2,7 +2,6 @@ package edu.miu.cs.cs544.service.contract;
 
 import edu.miu.cs.cs544.domain.Member;
 import edu.miu.cs.cs544.domain.Scanner;
-import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 import java.io.Serial;
