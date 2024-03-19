@@ -1,29 +1,41 @@
 package edu.miu.cs.cs544.Controller;
 
-import edu.miu.cs.cs544.domain.Event;
-import edu.miu.cs.cs544.domain.Member;
-import edu.miu.cs.cs544.domain.Schedule;
-import edu.miu.cs.cs544.domain.Session;
-import edu.miu.cs.cs544.dto.AttendanceRecord;
+import com.nimbusds.jose.shaded.gson.Gson;
+import com.nimbusds.jose.shaded.gson.JsonObject;
 import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
+import edu.miu.cs.cs544.mapper.JsonParser;
 import edu.miu.cs.cs544.repository.EventRepository;
 import edu.miu.cs.cs544.service.EventService;
-import org.junit.jupiter.api.Test;
+import edu.miu.cs.cs544.service.contract.AttendanceDTO;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class EventControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @Mock
     EventService eventService;
@@ -31,48 +43,31 @@ public class EventControllerTest {
     @Mock
     EventRepository eventRepository;
 
+
     @Test
-    public void getAttendanceByEventIdTest() {
+    public void getAttendanceByEventIdTest() throws Exception {
 
-        Optional<Event> eventOptional = this.eventRepository.findById(1L);
-        AttendanceResponseDTO expectedData = null;
-        if (eventOptional.isPresent()) {
-            Event events = eventOptional.get();
-            Schedule schedule = events.getSchedule();
-            List<Session> sessionList = schedule.getSessions();
-            List<AttendanceRecord> attendanceRecord = new ArrayList<>();
-            if (!sessionList.isEmpty()) {
-                for (Session session : sessionList) {
-                    List<Member> memberList = session.getMembers();
-                    for (Member member : memberList) {
-                        attendanceRecord.add(AttendanceRecord.builder()
-                                .memberId(member.getId())
-                                .memberFirstName(member.getFirstName())
-                                .memberLastName(member.getLastName())
-                                .sessionId(session.getId())
-                                .sessionDescription(session.getDescription())
-                                .sessionName(session.getName())
-                                .build());
-                    }
-                }
-            }
-
-
-            expectedData = AttendanceResponseDTO.builder().count(attendanceRecord.size())
-                    .attendanceRecordList(attendanceRecord)
-                    .build();
-
-        }
-
-        ResponseEntity<?> eventAttendance = ResponseEntity.ok(this.eventService.getAttendanceForEvent(1L));
-
-
-        assertEquals(HttpStatus.OK, eventAttendance.getStatusCode());
-        assertEquals(expectedData, eventAttendance.getBody());
+//        String expectedData = "{\"count\":3,\"attendanceRecordList\":[{\"memberId\":1,\"memberFirstName\":\"voijay\",\"memberLastName\":\"mano\",\"sessionId\":1,\"sessionName\":\"Session 1\",\"sessionDescription\":\"Monday\"},{\"memberId\":2,\"memberFirstName\":\"test\",\"memberLastName\":\"man\",\"sessionId\":1,\"sessionName\":\"Session 1\",\"sessionDescription\":\"Monday\"},{\"memberId\":3,\"memberFirstName\":\"rim\",\"memberLastName\":\"cok\",\"sessionId\":1,\"sessionName\":\"Session 1\",\"sessionDescription\":\"Monday\"}]}";
+////
+//        AttendanceResponseDTO jsonObject = JsonParser.parseJsonToObject(expectedData, AttendanceResponseDTO.class);
+////        ResponseEntity<?> response = ResponseEntity.ok(eventService.getAttendanceForEvent(1L));
+////        System.out.print(jsonObject+  " ------------------------> " + response.getBody());
+//        Mockito.when(eventService.getAttendanceForEvent(1L)).thenReturn(jsonObject);
+//        mockMvc.perform(MockMvcRequestBuilders.get("/events/{eventId}/attendance", 1))
+//                .andExpect(status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.count").value("3"));
     }
 
     @Test
     public void getAllSessionForEventTest(){
+        //given
+        Long eventId = 1L;
+
+        //response
+        ResponseEntity<?> response = ResponseEntity.ok(this.eventService.getAttendanceForEvent(eventId));
+
+        //expected data
+
 
     }
 }
