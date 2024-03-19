@@ -111,13 +111,15 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
 
     @Override
     public List<SessionPayload> getAttendanceForEvent(Long eventId) {
-//        List<SessionPayload> sessionPayloadList = this.eventRepository.fetchAllSessionForEvent(eventId);
-//        if(!sessionPayloadList.isEmpty()){
-//           sessionPayloadList.stream().map(s->{
-////               s.getMembers();
-//            });
-//        }
-        return null;
+        Optional<Event> eventOptional = this.eventRepository.findById(eventId);
+        if (eventOptional.isPresent()) {
+            Event event = eventOptional.get();
+            return event.getSchedule().getSessions()
+                    .stream()
+                    .map(SessionMapper::toSessionPayload)
+                    .toList();
+        }
+        throw new NotFoundException("Event not exist");
     }
 
 }
