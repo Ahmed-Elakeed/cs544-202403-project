@@ -12,12 +12,14 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Entity(name = "badge_scanner")
+@Entity(name = "scanner")
 @Validated
 public class Scanner implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String scannerCode;
 
     @Enumerated
     @NotBlank

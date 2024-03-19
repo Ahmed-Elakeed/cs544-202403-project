@@ -6,6 +6,8 @@ import edu.miu.cs.cs544.domain.ScanRecord;
 import edu.miu.cs.cs544.service.contract.ScanRecordPayload;
 import edu.miu.cs.cs544.service.mapper.ScanRecordPayloadToScanRecord;
 
+import java.util.List;
+
 public interface ScanRecordService
         extends BaseReadWriteService<ScanRecordPayload, ScanRecord, Long> {
 }

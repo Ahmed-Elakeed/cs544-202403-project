@@ -15,13 +15,22 @@ import java.util.List;
 public class ScannerServiceImpl
         extends BaseReadWriteServiceImpl<ScannerPayload, Scanner, Long>
         implements ScannerService {
+
     @Autowired
     private ScannerRepository scannerRepository;
-    @Autowired
-    private ScanRecordRepository scanRecordRepository;
+    @Override
+    public List<ScanRecordPayload> getAllScanRecordsByScannerID(Long scannerID) {
+        return scannerRepository.getAllScanRecordsByScannerCode(scannerID);
+    }
 
     @Override
-    public List<ScanRecordPayload> findAllScanRecordsByScannerId(Long scannerId) {
-        return null;
+    public ScanRecordPayload getScanRecordByScannerIDAndId(Long scannerID, Long recordId) {
+        return scannerRepository.getScanRecordByScannerIDAndID(scannerID, recordId);
     }
+
+    @Override
+    public void deleteScanRecordByScannerIDAndID(String scannerID, Long recordId) {
+        scannerRepository.deleteScanRecordByScannerIDAndID(scannerID, recordId);
+    }
+
 }
