@@ -23,32 +23,37 @@ public class MemberController extends BaseReadWriteController<MemberPayload, Mem
         return ResponseEntity.ok(this.memberService.attendanceForMemberByEvent(memberId,eventId));
     }
     @GetMapping(path = "/{memberId}/roles")
-    public ResponseEntity<?> getAllRoles(@PathVariable(value = "memberId") Long memberId) {
-        return ResponseEntity.ok(this.memberService.getAllRolesForMember(memberId));
+    public ResponseEntity<?>  getAllRoles(@PathVariable(value = "memberId") Long memberId) {
+        return ResponseEntity.ok(this.memberService.getAllRoleForMember(memberId));
+
     }
 
-    @GetMapping(path = "/{memberId}/roles/{roleId}")
-    public ResponseEntity<?> getRoleForMember(@PathVariable(value = "memberId") Long memberId,@PathVariable(value = "roleId") Long roleId) {
-        return ResponseEntity.ok(this.memberService.getRoleForMember(memberId,roleId));
+    @GetMapping  (path = "/{memberId}/roles/{roleId}")
+    public  ResponseEntity<?>  getRoleForMember (@PathVariable(value = "memberId")Long memberId,@PathVariable(value = "roleId")Long roleId ) {
+        return ResponseEntity.ok (this.memberService.getRoleForMember(memberId,roleId));
+
     }
 
-    @PostMapping(path = "/{memberId}/roles")
-    public ResponseEntity<?> createRole(@PathVariable(value = "memberId") Long memberId,@RequestBody Role role) {
-        return ResponseEntity.ok(this.memberService.createRole(memberId,role));
+    @PostMapping (path = "/{memberId}/roles")
+    public ResponseEntity <?> createRole  (@PathVariable(value = "memberId") Long memberId, @RequestBody Role role) {
+        return ResponseEntity.ok (this.memberService.createRole(memberId,role));
+
     }
 
-    @PutMapping("/{memberId}/roles")
-    public ResponseEntity<?> updateRole(@PathVariable(value = "memberId") Long memberId, @RequestBody Role role) {
-        return ResponseEntity.ok(this.memberService.updateRole(memberId, role));
+    @PutMapping ("/{memberId}/roles")
+    public ResponseEntity <?> updateRole(@PathVariable (value = "memberId") Long memberId, @RequestBody Role role) {
+        return ResponseEntity.ok (this.memberService.updateRole(memberId, role));
+
     }
 
-    @DeleteMapping("/{memberId}/roles/{roleId}")
-    public ResponseEntity<?> deleteRole(@PathVariable(value = "memberId") Long memberId, @PathVariable(value = "roleId") Long roleId) {
-        return ResponseEntity.ok(this.memberService.deleteRoleForMember(memberId,roleId));
+    @DeleteMapping ("/{memberId}/roles/{roleId}")
+    public ResponseEntity<?> deleteRole(@PathVariable (value = "memberId") Long memberId, @PathVariable(value = "roleId") Long roleId) {
+        return ResponseEntity.ok(this. memberService. deleteRoleForMember (memberId,roleId));
     }
 
-    @GetMapping(path = "/{memberId}/attendance")
-    public ResponseEntity<?> getAllSessionsForEvent(@PathVariable(value = "memberId") Long memberId) {
-        return ResponseEntity.ok(this.memberService.getAttendence(memberId));
+    @GetMapping (path = "/{memberId}/attendance")
+    public ResponseEntity <?>  getAllSessionsForEvent(@PathVariable(value = "memberId") Long memberId) {
+        return ResponseEntity.ok (this.memberService.getAttendence(memberId));
+
     }
 }
