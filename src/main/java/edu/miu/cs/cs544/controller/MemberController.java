@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController extends BaseReadWriteController<MemberPayload, Member, Long> {
 
     private final MemberService memberService;
+
+
+    @GetMapping(path = "/{memberId}/events/{eventId}/attendance")
+    public ResponseEntity<?> attendanceForMemberByEvent(@PathVariable(value = "memberId") Long memberId,@PathVariable(value = "eventId") Long eventId){
+        return ResponseEntity.ok(this.memberService.attendanceForMemberByEvent(memberId,eventId));
+    }
     @GetMapping(path = "/{memberId}/roles")
     public ResponseEntity<?> getAllRoles(@PathVariable(value = "memberId") Long memberId) {
         return ResponseEntity.ok(this.memberService.getAllRolesForMember(memberId));
