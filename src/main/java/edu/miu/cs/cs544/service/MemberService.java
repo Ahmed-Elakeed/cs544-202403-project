@@ -1,17 +1,20 @@
 package edu.miu.cs.cs544.service;
 
-import java.util.List;
-
 import edu.miu.common.service.BaseReadWriteService;
 import edu.miu.cs.cs544.domain.Member;
 import edu.miu.cs.cs544.domain.Role;
 import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
 import edu.miu.cs.cs544.service.contract.MemberPayload;
-import edu.miu.cs.cs544.service.contract.SessionPayload;
+
+import java.util.List;
 
 
 
 public interface MemberService extends BaseReadWriteService <MemberPayload, Member, Long>{
+
+
+    
+	AttendanceResponseDTO attendanceForMemberByEvent(Long memberId, Long eventId);
 
     List<Role> getAllRolesForMember(Long memberId);
 
@@ -24,6 +27,4 @@ public interface MemberService extends BaseReadWriteService <MemberPayload, Memb
     Role updateRole(Long memberId, Role role);
 
     String deleteRoleForMember(Long memberId, Long roleId);
-    
-	AttendanceResponseDTO attendanceForMemberByEvent(Long memberId, Long eventId);
 }
