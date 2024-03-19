@@ -1,18 +1,15 @@
 package edu.miu.cs.cs544.service;
 
+import edu.miu.common.service.BaseReadWriteServiceImpl;
+import edu.miu.cs.cs544.domain.Member;
+import edu.miu.cs.cs544.domain.Role;
 import edu.miu.cs.cs544.domain.Session;
 import edu.miu.cs.cs544.dto.AttendanceRecord;
 import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
 import edu.miu.cs.cs544.repository.MemberRepository;
-import lombok.RequiredArgsConstructor;
-import edu.miu.cs.cs544.domain.Role;
-import edu.miu.cs.cs544.repository.MemberRepository;
+import edu.miu.cs.cs544.service.contract.MemberPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import edu.miu.common.service.BaseReadWriteServiceImpl;
-import edu.miu.cs.cs544.domain.Member;
-import edu.miu.cs.cs544.service.contract.MemberPayload;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +44,6 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
                 .attendanceRecordList(attendanceRecordList)
                 .build();
     }
-
-    private final MemberRepository memberRepository;
 
 
     @Override
