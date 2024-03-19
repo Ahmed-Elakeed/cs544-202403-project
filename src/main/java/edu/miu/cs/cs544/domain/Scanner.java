@@ -1,7 +1,9 @@
 package edu.miu.cs.cs544.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.Serializable;
 
@@ -11,12 +13,14 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Data
 @Entity(name = "badge_scanner")
-public class BadgeScanner implements Serializable {
+@Validated
+public class Scanner implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated
+    @NotBlank
     private AccountType accountType;
 
     @OneToOne

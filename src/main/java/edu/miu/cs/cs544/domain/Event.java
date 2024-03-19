@@ -23,9 +23,10 @@ public class Event implements Serializable {
     private LocalDate startDateTime;
     private LocalDate endDateTime;
 
+    @Enumerated(EnumType.STRING)
+    private AccountType accountType;
 
-
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Schedule schedule;
 
     @ManyToMany
