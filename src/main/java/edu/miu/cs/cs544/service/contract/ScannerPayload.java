@@ -19,6 +19,7 @@ public class ScannerPayload implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private Long id;
+    private String scannerCode;
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
     private LocationPayload location;
