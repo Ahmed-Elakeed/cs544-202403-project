@@ -24,6 +24,8 @@ public class Event implements Serializable {
     private LocalDate endDateTime;
 
 
+    @Enumerated(EnumType.STRING)
+    private AccountType accountType;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Schedule schedule;
