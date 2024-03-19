@@ -1,6 +1,5 @@
 package edu.miu.cs.cs544.controller;
 
-
 import edu.miu.common.controller.BaseReadWriteController;
 import edu.miu.cs.cs544.domain.Member;
 import edu.miu.cs.cs544.domain.Role;
@@ -47,8 +46,8 @@ public class MemberController extends BaseReadWriteController<MemberPayload, Mem
     public ResponseEntity<?> getAllSessionsForEvent(@PathVariable(value = "memberId") Long memberId) {
         return ResponseEntity.ok(this.memberService.getAttendence(memberId));
     }
-    
-	@GetMapping(path = "/{memberId}/events/{eventId}/attendance")
+
+    @GetMapping(path = "/{memberId}/events/{eventId}/attendance")
     public ResponseEntity<?> attendanceForMemberByEvent(@PathVariable(value = "memberId") Long memberId,@PathVariable(value = "eventId") Long eventId){
         return ResponseEntity.ok(this.memberService.attendanceForMemberByEvent(memberId,eventId));
     }

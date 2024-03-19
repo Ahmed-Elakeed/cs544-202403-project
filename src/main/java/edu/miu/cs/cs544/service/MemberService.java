@@ -7,6 +7,7 @@ import edu.miu.cs.cs544.domain.Member;
 import edu.miu.cs.cs544.domain.Role;
 import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
 import edu.miu.cs.cs544.service.contract.MemberPayload;
+import edu.miu.cs.cs544.service.contract.SessionPayload;
 
 
 
