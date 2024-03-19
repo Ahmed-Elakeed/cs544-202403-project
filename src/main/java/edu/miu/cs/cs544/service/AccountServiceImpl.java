@@ -56,7 +56,6 @@ public class AccountServiceImpl extends BaseReadWriteServiceImpl<AccountPayload,
                                 .memberLastName(member.getLastName())
                                 .sessionId(session.getId())
                                 .sessionDescription(session.getDescription())
-                                .sessionEventType(account.getAccountType())
                                 .sessionName(session.getName())
                                 .build());
                     }

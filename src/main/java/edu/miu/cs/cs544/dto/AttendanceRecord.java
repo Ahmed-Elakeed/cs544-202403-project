@@ -21,6 +21,4 @@ public class AttendanceRecord {
     private String sessionName;
 
     private String sessionDescription;
-
-    private AccountType sessionEventType;
 }
