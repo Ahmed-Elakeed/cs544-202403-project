@@ -6,7 +6,6 @@ import edu.miu.cs.cs544.repository.ScanRecordRepository;
 import edu.miu.cs.cs544.repository.ScannerRepository;
 import edu.miu.cs.cs544.service.contract.ScanRecordPayload;
 import edu.miu.cs.cs544.service.contract.ScannerPayload;
-import edu.miu.cs.cs544.service.contract.SessionPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,33 +15,26 @@ import java.util.List;
 public class ScannerServiceImpl
         extends BaseReadWriteServiceImpl<ScannerPayload, Scanner, Long>
         implements ScannerService {
-    @Autowired
-    private ScannerRepository scannerRepository;
-    @Autowired
-    private ScanRecordRepository scanRecordRepository;
 
-    @Override
-    public List<ScanRecordPayload> findAllScanRecordsByScannerId(Long scannerId) {
-        return null;
+    private final ScannerRepository scannerRepository;
+
+    public ScannerServiceImpl(ScannerRepository scannerRepository) {
+        this.scannerRepository = scannerRepository;
     }
 
     @Override
-    public SessionPayload getSessionForEvent(Long eventId, Long sessionId) {
-        return null;
+    public List<ScanRecordPayload> getAllScanRecordsByScannerID(Long scannerID) {
+        return scannerRepository.getAllScanRecordsByScannerCode(scannerID);
     }
 
     @Override
-    public SessionPayload saveSessionForEvent(Long eventId, SessionPayload sessionPayload) {
-        return null;
+    public ScanRecordPayload getScanRecordByScannerIDAndId(Long scannerID, Long recordId) {
+        return scannerRepository.getScanRecordByScannerIDAndID(scannerID, recordId);
     }
 
     @Override
-    public SessionPayload updateSessionInEvent(Long eventId, Long sessionId, SessionPayload sessionPayload) {
-        return null;
+    public void deleteScanRecordByScannerIDAndID(String scannerID, Long recordId) {
+        scannerRepository.deleteScanRecordByScannerIDAndID(scannerID, recordId);
     }
 
-    @Override
-    public String deleteSessionFromEvent(Long eventId, Long sessionId) {
-        return null;
-    }
 }
