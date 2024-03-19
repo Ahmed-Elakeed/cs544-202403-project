@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,4 +22,11 @@ public class Session implements Serializable {
     private String description;
     private Date startDateTime;
     private Date endDateTime;
+
+    @ManyToMany
+    @JoinTable(name = "member_sessions",
+            inverseJoinColumns = {@JoinColumn(name = "member_id")},
+            joinColumns = {@JoinColumn(name = "session_id")}
+    )
+    private List<Member> members = new ArrayList<>();
 }

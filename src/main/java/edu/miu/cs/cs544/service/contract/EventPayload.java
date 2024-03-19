@@ -1,5 +1,6 @@
 package edu.miu.cs.cs544.service.contract;
 
+import edu.miu.cs.cs544.domain.AccountType;
 import edu.miu.cs.cs544.domain.Schedule;
 import lombok.Data;
 
@@ -19,7 +20,7 @@ public class EventPayload implements Serializable {
     private LocalDate startDateTime;
     private LocalDate endDateTime;
 
-
+    private AccountType accountType;
     private Schedule schedule;
 
 }
