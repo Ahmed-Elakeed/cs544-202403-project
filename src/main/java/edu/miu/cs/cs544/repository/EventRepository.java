@@ -13,11 +13,8 @@ import java.util.List;
 
 public interface EventRepository extends BaseRepository<Event, Long> {
 
-    @Query(value = "select new edu.miu.cs.cs544.service.contract.SessionPayload(s.id,s.name,s.description,s.startDateTime,s.endDateTime) from Session s where s.event.id = :eventId")
-    List<SessionPayload> fetchAllSessionForEvent(@Param(value = "eventId") Long eventId);
-
     @Transactional
     @Modifying
-    @Query(value = "delete from Session s where s.event.id = :eventId and s.id = :sessionId")
-    void deleteSessionFromEvent(@Param(value = "eventId") Long eventId,@Param(value = "sessionId") Long sessionId);
+    @Query(value = "delete from session s where s.id = :sessionId AND s.schedule_id = :scheduleId", nativeQuery = true)
+    void deleteSessionFromEventSchedule(@Param(value = "scheduleId") Long scheduleId,@Param(value = "sessionId") Long sessionId);
 }

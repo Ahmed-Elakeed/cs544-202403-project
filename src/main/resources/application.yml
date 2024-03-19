@@ -19,7 +19,7 @@ spring:
     name: cs544-202403-project
   datasource:
     url: jdbc:mysql://localhost:3306/attendance_system_db
-    password:
+    password: 12345678
     username: root
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:

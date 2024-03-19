@@ -8,6 +8,7 @@ import edu.miu.cs.cs544.exception.NotFoundException;
 import edu.miu.cs.cs544.repository.EventRepository;
 import edu.miu.cs.cs544.service.contract.EventPayload;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
+import edu.miu.cs.cs544.service.mapper.SessionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,15 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
 
     @Override
     public List<SessionPayload> getAllSessionsForEvent(Long eventId) {
-        return this.eventRepository.fetchAllSessionForEvent(eventId);
+        Optional<Event> eventOptional = this.eventRepository.findById(eventId);
+        if (eventOptional.isPresent()) {
+            Event event = eventOptional.get();
+            return event.getSchedule().getSessions()
+                    .stream()
+                    .map(SessionMapper::toSessionPayload)
+                    .toList();
+        }
+        throw new NotFoundException("Event not exist");
     }
 
     @Override
@@ -60,7 +69,7 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
             session.setDescription(sessionPayload.getDescription());
             session.setStartDateTime(sessionPayload.getStartDateTime());
             session.setEndDateTime(sessionPayload.getEndDateTime());
-            session.setEvent(event);
+//            session.setEvent(event);
             event.getSchedule().getSessions().add(session);
             this.eventRepository.save(event);
             return sessionPayload;
@@ -94,7 +103,7 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
     public String deleteSessionFromEvent(Long eventId, Long sessionId) {
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
         if (eventOptional.isPresent()) {
-            this.eventRepository.deleteSessionFromEvent(eventId,sessionId);
+            this.eventRepository.deleteSessionFromEventSchedule(eventOptional.get().getSchedule().getId(), sessionId);
             return "Session deleted or it was already not exist for this event";
         }
         throw new NotFoundException("This event not exist");
@@ -102,12 +111,12 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
 
     @Override
     public List<SessionPayload> getAttendanceForEvent(Long eventId) {
-        List<SessionPayload> sessionPayloadList = this.eventRepository.fetchAllSessionForEvent(eventId);
-        if(!sessionPayloadList.isEmpty()){
+//        List<SessionPayload> sessionPayloadList = this.eventRepository.fetchAllSessionForEvent(eventId);
+//        if(!sessionPayloadList.isEmpty()){
 //           sessionPayloadList.stream().map(s->{
 ////               s.getMembers();
 //            });
-        }
+//        }
         return null;
     }
 
