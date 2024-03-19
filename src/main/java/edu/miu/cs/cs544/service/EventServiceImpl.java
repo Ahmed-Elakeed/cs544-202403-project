@@ -3,6 +3,7 @@ package edu.miu.cs.cs544.service;
 import edu.miu.common.service.BaseReadWriteServiceImpl;
 import edu.miu.cs.cs544.domain.Event;
 import edu.miu.cs.cs544.domain.Session;
+import edu.miu.cs.cs544.exception.InvalidCredentialsException;
 import edu.miu.cs.cs544.exception.NotFoundException;
 import edu.miu.cs.cs544.repository.EventRepository;
 import edu.miu.cs.cs544.service.contract.EventPayload;
@@ -11,6 +12,11 @@ import edu.miu.cs.cs544.service.mapper.SessionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,9 +67,14 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
         if (eventOptional.isPresent()) {
             Event event = eventOptional.get();
-            event.getSchedule().getSessions().add(SessionMapper.toSession(sessionPayload));
-            this.eventRepository.save(event);
-            return sessionPayload;
+            if (!this.convertDateToLocalDate(sessionPayload.getStartDateTime()).isBefore(event.getStartDateTime())
+                    && !this.convertDateToLocalDate(sessionPayload.getEndDateTime()).isAfter(event.getEndDateTime())) {
+                event.getSchedule().getSessions().add(SessionMapper.toSession(sessionPayload));
+                this.eventRepository.save(event);
+                return sessionPayload;
+            }else{
+                throw new InvalidCredentialsException("Session date has to be in the event range");
+            }
         }
         throw new NotFoundException("Event not exist");
     }
@@ -79,13 +90,18 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
                     .filter(session -> session.getId().equals(sessionId))
                     .findFirst();
             if(sessionOptional.isPresent()){
-                Session session = sessionOptional.get();
-                session.setName(sessionPayload.getName());
-                session.setDescription(sessionPayload.getDescription());
-                session.setStartDateTime(sessionPayload.getStartDateTime());
-                session.setEndDateTime(sessionPayload.getEndDateTime());
-                this.eventRepository.save(event);
-                return sessionPayload;
+                if (!this.convertDateToLocalDate(sessionPayload.getStartDateTime()).isBefore(event.getStartDateTime())
+                        && !this.convertDateToLocalDate(sessionPayload.getEndDateTime()).isAfter(event.getEndDateTime())) {
+                    Session session = sessionOptional.get();
+                    session.setName(sessionPayload.getName());
+                    session.setDescription(sessionPayload.getDescription());
+                    session.setStartDateTime(sessionPayload.getStartDateTime());
+                    session.setEndDateTime(sessionPayload.getEndDateTime());
+                    this.eventRepository.save(event);
+                    return sessionPayload;
+                }else{
+                    throw new InvalidCredentialsException("Session date has to be in the event range");
+                }
             }
         }
         throw new NotFoundException("Event or session not exist");
@@ -99,5 +115,15 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
             return "Session deleted or it was already not exist for this event";
         }
         throw new NotFoundException("This event not exist");
+    }
+
+    private LocalDate convertDateToLocalDate(Date date){
+        Instant instant = date.toInstant();
+
+        // Convert Instant to LocalDateTime (using system default time zone)
+        LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+        // Extract LocalDate from LocalDateTime
+       return localDateTime.toLocalDate();
     }
 }
