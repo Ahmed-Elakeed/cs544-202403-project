@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Getter
@@ -17,9 +17,17 @@ public class ScanRecord implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate scanDateTime;
+    private LocalDateTime scanDateTime;
+
     @ManyToOne
-    private Member recordOwner;
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @ManyToOne
-    private Scanner recordScanner;
+    @JoinColumn(name = "session_id")
+    private Session session;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
 }
