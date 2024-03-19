@@ -21,5 +21,4 @@ public class Account implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
-    
 }

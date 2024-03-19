@@ -10,15 +10,9 @@ import java.util.List;
 
 public interface ScannerService
         extends BaseReadWriteService<ScannerPayload, Scanner, Long> {
+    List<ScanRecordPayload> getAllScanRecordsByScannerID(Long scannerID);
 
-    // get all the records by a scannerID
-    List<ScanRecordPayload> findAllScanRecordsByScannerId(Long scannerId);
+    ScanRecordPayload getScanRecordByScannerIDAndId(Long scannerID, Long recordId);
 
-    SessionPayload getSessionForEvent(Long eventId, Long sessionId);
-
-    SessionPayload saveSessionForEvent(Long eventId, SessionPayload sessionPayload);
-
-    SessionPayload updateSessionInEvent(Long eventId, Long sessionId, SessionPayload sessionPayload);
-
-    String deleteSessionFromEvent(Long eventId, Long sessionId);
+    void deleteScanRecordByScannerIDAndID(String scannerID, Long recordId);
 }

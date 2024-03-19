@@ -30,11 +30,6 @@ public class Event implements Serializable {
     private Schedule schedule;
 
     @ManyToMany
-    @JoinTable(name = "event_members",
-            joinColumns = {@JoinColumn(name = "event_id")},
-            inverseJoinColumns = {@JoinColumn(name = "member_id")}
-    )
+    @JoinTable(name = "event_members", joinColumns = {@JoinColumn(name = "event_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id")})
     private List<Member> members = new ArrayList<>();
-
-
 }

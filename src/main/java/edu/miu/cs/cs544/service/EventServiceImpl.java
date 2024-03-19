@@ -3,10 +3,14 @@ package edu.miu.cs.cs544.service;
 import edu.miu.common.service.BaseReadWriteServiceImpl;
 import edu.miu.cs.cs544.domain.Event;
 import edu.miu.cs.cs544.domain.Member;
+import edu.miu.cs.cs544.domain.Schedule;
 import edu.miu.cs.cs544.domain.Session;
+import edu.miu.cs.cs544.dto.AttendanceRecord;
+import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
 import edu.miu.cs.cs544.exception.InvalidCredentialsException;
 import edu.miu.cs.cs544.exception.NotFoundException;
 import edu.miu.cs.cs544.repository.EventRepository;
+import edu.miu.cs.cs544.service.contract.AttendanceDTO;
 import edu.miu.cs.cs544.service.contract.EventPayload;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
 import edu.miu.cs.cs544.service.mapper.SessionMapper;
@@ -117,7 +121,39 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
         }
         throw new NotFoundException("This event not exist");
     }
+    @Override
+    public AttendanceResponseDTO getAttendanceForEvent(Long eventId) {
+        Optional<Event> eventOptional = this.eventRepository.findById(eventId);
+        if (eventOptional.isPresent()) {
+            Event events = eventOptional.get();
+            Schedule schedule = events.getSchedule();
+            List<Session> sessionList = schedule.getSessions();
+            List<AttendanceRecord> attendenceRecord = new ArrayList<>();
+            if(!sessionList.isEmpty()){
+                for(Session session: sessionList){
+                    List<Member> memberList = session.getMembers();
+                    for(Member member: memberList){
+                        attendenceRecord.add(AttendanceRecord.builder()
+                                .memberId(member.getId())
+                                .memberFirstName(member.getFirstName())
+                                .memberLastName(member.getLastName())
+                                .sessionId(session.getId())
+                                .sessionDescription(session.getDescription())
+                                .sessionName(session.getName())
+                                .build());
+                    }
+                }
+            }
+            return AttendanceResponseDTO.builder().count(attendenceRecord.size())
+                    .attendanceRecordList(attendenceRecord)
+                    .build();
 
+        }
+        return AttendanceResponseDTO.builder()
+                .count(0)
+                .attendanceRecordList(new ArrayList<>())
+                .build();
+    }
     private LocalDate convertDateToLocalDate(Date date){
         Instant instant = date.toInstant();
 

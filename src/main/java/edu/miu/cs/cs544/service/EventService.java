@@ -2,6 +2,8 @@ package edu.miu.cs.cs544.service;
 
 import edu.miu.common.service.BaseReadWriteService;
 import edu.miu.cs.cs544.domain.Event;
+import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
+import edu.miu.cs.cs544.service.contract.AttendanceDTO;
 import edu.miu.cs.cs544.service.contract.EventPayload;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
 
@@ -19,5 +21,5 @@ public interface EventService extends BaseReadWriteService<EventPayload, Event, 
 
      String deleteSessionFromEvent(Long eventId, Long sessionId);
 
-     List<SessionPayload> getAttendanceForEvent(Long eventId);
+     AttendanceResponseDTO getAttendanceForEvent(Long eventId);
 }
