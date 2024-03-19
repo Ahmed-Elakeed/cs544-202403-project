@@ -23,8 +23,6 @@ public class Event implements Serializable {
     private LocalDate startDateTime;
     private LocalDate endDateTime;
 
-
-
     @OneToOne
     private Schedule schedule;
 
@@ -34,6 +32,5 @@ public class Event implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "member_id")}
     )
     private List<Member> members = new ArrayList<>();
-
 
 }

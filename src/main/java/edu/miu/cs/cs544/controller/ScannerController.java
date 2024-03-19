@@ -2,13 +2,11 @@ package edu.miu.cs.cs544.controller;
 
 import edu.miu.common.controller.BaseReadWriteController;
 import edu.miu.cs.cs544.domain.Scanner;
-import edu.miu.cs.cs544.service.ScanRecordService;
 import edu.miu.cs.cs544.service.ScannerService;
 import edu.miu.cs.cs544.service.contract.ScanRecordPayload;
 import edu.miu.cs.cs544.service.contract.ScannerPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +18,12 @@ import java.util.List;
 public class ScannerController
         extends BaseReadWriteController<ScannerPayload, Scanner, Long> {
 
-    @Autowired
     private ScannerService scannerService;
+
+    @Autowired
+    public ScannerController(ScannerService scannerService) {
+        this.scannerService = scannerService;
+    }
 
     @GetMapping("/{scannerID}/records")
     public ResponseEntity<List<ScanRecordPayload>> getAllScanRecords(

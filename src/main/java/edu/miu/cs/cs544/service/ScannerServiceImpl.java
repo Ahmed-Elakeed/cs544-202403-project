@@ -16,8 +16,12 @@ public class ScannerServiceImpl
         extends BaseReadWriteServiceImpl<ScannerPayload, Scanner, Long>
         implements ScannerService {
 
-    @Autowired
-    private ScannerRepository scannerRepository;
+    private final ScannerRepository scannerRepository;
+
+    public ScannerServiceImpl(ScannerRepository scannerRepository) {
+        this.scannerRepository = scannerRepository;
+    }
+
     @Override
     public List<ScanRecordPayload> getAllScanRecordsByScannerID(Long scannerID) {
         return scannerRepository.getAllScanRecordsByScannerCode(scannerID);
