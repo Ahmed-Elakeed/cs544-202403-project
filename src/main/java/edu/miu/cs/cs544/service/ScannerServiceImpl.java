@@ -1,15 +1,17 @@
 package edu.miu.cs.cs544.service;
 
 import edu.miu.common.service.BaseReadWriteServiceImpl;
+import edu.miu.cs.cs544.domain.ScanRecord;
 import edu.miu.cs.cs544.domain.Scanner;
-import edu.miu.cs.cs544.repository.ScanRecordRepository;
+import edu.miu.cs.cs544.exception.NotFoundException;
 import edu.miu.cs.cs544.repository.ScannerRepository;
 import edu.miu.cs.cs544.service.contract.ScanRecordPayload;
 import edu.miu.cs.cs544.service.contract.ScannerPayload;
-import org.springframework.beans.factory.annotation.Autowired;
+import edu.miu.cs.cs544.service.mapper.ScanRecordMapper;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ScannerServiceImpl
@@ -23,18 +25,69 @@ public class ScannerServiceImpl
     }
 
     @Override
-    public List<ScanRecordPayload> getAllScanRecordsByScannerID(Long scannerID) {
-        return scannerRepository.getAllScanRecordsByScannerCode(scannerID);
+    public List<ScanRecordPayload> getAllScanRecordsByScannerCode(String scannerCode) {
+        Optional<Scanner> scannerOptional = this.scannerRepository.findScannerByScannerCode(scannerCode);
+        if (scannerOptional.isPresent()) {
+            return scannerOptional.map(scanner -> scanner
+                    .getScanRecordList()
+                    .stream()
+                    .map(ScanRecordMapper::toScanRecordPayload)
+                    .toList()).orElseGet(ArrayList::new);
+        }
+        throw new NotFoundException("Scanner not found");
     }
 
     @Override
-    public ScanRecordPayload getScanRecordByScannerIDAndId(Long scannerID, Long recordId) {
-        return scannerRepository.getScanRecordByScannerIDAndID(scannerID, recordId);
+    public ScanRecordPayload getScanRecordByScannerCodeAndRecordId(String scannerCode, Long recordId) {
+        Optional<Scanner> scannerOptional = this.scannerRepository.findScannerByScannerCode(scannerCode);
+        if (scannerOptional.isPresent()) {
+            Scanner scanner = scannerOptional.get();
+            Optional<ScanRecord> scanRecordOptional = scanner.getScanRecordList()
+                    .stream()
+                    .filter(scanRecord -> scanRecord.getId().equals(recordId))
+                    .findFirst();
+            if (scanRecordOptional.isPresent()) {
+                return ScanRecordMapper.toScanRecordPayload(scanRecordOptional.get());
+            }
+        }
+        throw new NotFoundException("Scanner or record not exist");
     }
 
     @Override
-    public void deleteScanRecordByScannerIDAndID(String scannerID, Long recordId) {
-        scannerRepository.deleteScanRecordByScannerIDAndID(scannerID, recordId);
+    public String deleteScanRecordByScannerCodeAndRecordId(String scannerCode, Long recordId) {
+        Optional<Scanner> scannerOptional = this.scannerRepository.findScannerByScannerCode(scannerCode);
+        if (scannerOptional.isPresent()) {
+            this.scannerRepository.deleteScanRecord(scannerOptional.get().getId(), recordId);
+            return "Deleted";
+        }
+        return "Scanner not found";
     }
 
+    @Override
+    public ScanRecordPayload createRecordForScanner(String scannerCode, ScanRecordPayload scanRecordPayload) {
+        Optional<Scanner> scannerOptional = this.scannerRepository.findScannerByScannerCode(scannerCode);
+        try {
+            if(scannerOptional.isPresent()) {
+                Scanner scanner = scannerOptional.get();
+                scanner.getScanRecordList().add(ScanRecordMapper.toScanRecord(scanRecordPayload));
+                this.scannerRepository.saveIntoMemberSession(scanRecordPayload.getMember().getId(), scanRecordPayload.getSession().getId());
+//                this.scannerRepository.createRecord(
+//                        LocalDateTime.now(),
+//                        scanRecordPayload.getEvent().getId(),
+//                        scanRecordPayload.getSession().getId(),
+//                        scanRecordPayload.getMember().getId(),
+//                        scanner.getId()
+//                );
+                this.scannerRepository.save(scanner);
+                return scanRecordPayload;
+            }else{
+                throw new NotFoundException("Scanner not found");
+            }
+        } catch (Exception exception) {
+            if (scannerOptional.isPresent()) {
+                throw new NotFoundException("Event, session, member or all not exist");
+            }
+            throw new NotFoundException("Scanner not found");
+        }
+    }
 }
