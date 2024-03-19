@@ -25,28 +25,32 @@ public class ScannerController
         this.scannerService = scannerService;
     }
 
-    @GetMapping("/{scannerID}/records")
+    @GetMapping("/{scannerCode}/records")
     public ResponseEntity<List<ScanRecordPayload>> getAllScanRecords(
-            @PathVariable Long scannerID
+            @PathVariable String scannerCode
     ) {
-        List<ScanRecordPayload> scanRecords = scannerService.getAllScanRecordsByScannerID(scannerID);
+        List<ScanRecordPayload> scanRecords = scannerService.getAllScanRecordsByScannerCode(scannerCode);
         return ResponseEntity.ok(scanRecords);
     }
 
-    @GetMapping("/{scannerID}/records/{recordId}")
-    public ResponseEntity<ScanRecordPayload> getScanRecordByScannerIdAndID(
-            @PathVariable Long scannerID,
+    @GetMapping("/{scannerCode}/records/{recordId}")
+    public ResponseEntity<ScanRecordPayload> getScanRecordByScannerCodeAndRecordId(
+            @PathVariable String scannerCode,
             @PathVariable Long recordId
     ) {
-        ScanRecordPayload scanRecord = scannerService.getScanRecordByScannerIDAndId(scannerID, recordId);
+        ScanRecordPayload scanRecord = scannerService.getScanRecordByScannerCodeAndRecordId(scannerCode, recordId);
         return ResponseEntity.ok(scanRecord);
     }
-    @DeleteMapping("/{scannerID}/records/{recordId}")
-    public ResponseEntity<Void> deleteScanRecordByScannerIDAndID(
-            @PathVariable String scannerID,
+    @PostMapping(path = "/{scannerCode}/records")
+    public ResponseEntity<ScanRecordPayload> addRecordToScanner(@PathVariable(value = "scannerCode") String scannerCode,@RequestBody ScanRecordPayload scanRecordPayload){
+        return ResponseEntity.ok(this.scannerService.createRecordForScanner(scannerCode,scanRecordPayload));
+    }
+    @DeleteMapping("/{scannerCode}/records/{recordId}")
+    public ResponseEntity<String> deleteScanRecordByScannerCodeAndRecordId(
+            @PathVariable String scannerCode,
             @PathVariable Long recordId
     ) {
-        scannerService.deleteScanRecordByScannerIDAndID(scannerID, recordId);
-        return ResponseEntity.noContent().build();
+        scannerService.deleteScanRecordByScannerCodeAndRecordId(scannerCode, recordId);
+        return ResponseEntity.ok(this.scannerService.deleteScanRecordByScannerCodeAndRecordId(scannerCode,recordId));
     }
 }

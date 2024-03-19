@@ -1,12 +1,10 @@
 package edu.miu.cs.cs544.service.contract;
 
-import edu.miu.cs.cs544.domain.Member;
-import edu.miu.cs.cs544.domain.Scanner;
 import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Getter
@@ -17,7 +15,8 @@ public class ScanRecordPayload implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private Long id;
-    private LocalDate scanDateTime;
-    private Member recordOwner;
-    private Scanner recordScanner;
+    private LocalDateTime scanDateTime;
+    private MemberPayload member;
+    private SessionPayload session;
+    private EventPayload event;
 }
