@@ -17,10 +17,10 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
 
     private final EventService eventService;
 
-//    @GetMapping(path="/{eventId}/attendance")
-//    public ResponseEntity<?> getAttendanceByEventId(@PathVariable(value = "eventId") Long eventId){
-////        return ResponseEntity.ok(this.eventService);
-//    }
+    @GetMapping(path="/{eventId}/attendance")
+    public ResponseEntity<?> getAttendanceByEventId(@PathVariable(value = "eventId") Long eventId){
+      return ResponseEntity.ok(this.eventService.getAttendanceForEvent(eventId));
+    }
 
     @GetMapping(path = "/{eventId}/sessions")
     public ResponseEntity<?> getAllSessionsForEvent(@PathVariable(value = "eventId") Long eventId) {

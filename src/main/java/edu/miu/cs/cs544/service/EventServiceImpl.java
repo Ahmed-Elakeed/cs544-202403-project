@@ -2,6 +2,7 @@ package edu.miu.cs.cs544.service;
 
 import edu.miu.common.service.BaseReadWriteServiceImpl;
 import edu.miu.cs.cs544.domain.Event;
+import edu.miu.cs.cs544.domain.Member;
 import edu.miu.cs.cs544.domain.Session;
 import edu.miu.cs.cs544.exception.NotFoundException;
 import edu.miu.cs.cs544.repository.EventRepository;
@@ -101,8 +102,12 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
 
     @Override
     public List<SessionPayload> getAttendanceForEvent(Long eventId) {
-        List<SessionPayload> sessionsList = this.eventRepository.fetchAllAttendedSessionForEvent(eventId);
-
+        List<SessionPayload> sessionPayloadList = this.eventRepository.fetchAllSessionForEvent(eventId);
+        if(!sessionPayloadList.isEmpty()){
+//           sessionPayloadList.stream().map(s->{
+////               s.getMembers();
+//            });
+        }
         return null;
     }
 
