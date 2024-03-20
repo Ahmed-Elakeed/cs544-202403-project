@@ -5,6 +5,7 @@ import edu.miu.common.controller.BaseReadWriteController;
 import edu.miu.cs.cs544.domain.Event;
 import edu.miu.cs.cs544.service.EventService;
 import edu.miu.cs.cs544.service.contract.EventPayload;
+import edu.miu.cs.cs544.service.contract.MemberPayload;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,10 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
     @DeleteMapping(path = "/{eventId}/sessions/{sessionId}")
     public ResponseEntity<?> deleteSessionFromEvent(@PathVariable(value = "eventId") Long eventId, @PathVariable(value = "sessionId") Long sessionId) {
         return ResponseEntity.ok(this.eventService.deleteSessionFromEvent(eventId, sessionId));
+    }
+
+    @PostMapping(path = "/{eventId}/member")
+    public ResponseEntity<?> addMemberToEventById(@PathVariable(value = "eventId") Long eventId, @RequestBody MemberPayload memberPayload) {
+        return ResponseEntity.ok(this.eventService.addMemberToEventById(eventId, memberPayload));
     }
 }

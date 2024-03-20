@@ -12,7 +12,9 @@ import edu.miu.cs.cs544.exception.NotFoundException;
 import edu.miu.cs.cs544.repository.EventRepository;
 import edu.miu.cs.cs544.service.contract.AttendanceDTO;
 import edu.miu.cs.cs544.service.contract.EventPayload;
+import edu.miu.cs.cs544.service.contract.MemberPayload;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
+import edu.miu.cs.cs544.service.mapper.MemberMapper;
 import edu.miu.cs.cs544.service.mapper.SessionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -156,11 +158,21 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
     }
     private LocalDate convertDateToLocalDate(Date date){
         Instant instant = date.toInstant();
-
-        // Convert Instant to LocalDateTime (using system default time zone)
         LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
-
-        // Extract LocalDate from LocalDateTime
        return localDateTime.toLocalDate();
+    }
+
+    @Override
+    public MemberPayload addMemberToEventById(Long eventId, MemberPayload memberPayload){
+        Optional<Event> eventOptional = this.eventRepository.findById(eventId);
+        if(eventOptional.isPresent()){
+            Event event = eventOptional.get();
+            List<Member> members = event.getMembers();
+            members.add(MemberMapper.toMember(memberPayload));
+            this.eventRepository.save(event);
+        }else{
+            throw new NotFoundException("This event not exist");
+        }
+       return memberPayload;
     }
 }
