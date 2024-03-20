@@ -18,6 +18,7 @@ public class Account implements Serializable {
     private Long id;
     private String name;
     private String description;
+    private Integer balance;
 
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
