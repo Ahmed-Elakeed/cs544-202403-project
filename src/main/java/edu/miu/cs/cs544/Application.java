@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication(scanBasePackages = {"edu.miu.common", "edu.miu.cs.cs544"})
+@SpringBootApplication(scanBasePackages = {"edu.miu.common", "edu.miu.cs.cs544", "edu.miu.cs.cs544.service", "edu.miu.cs.cs544.repository","edu.miu.cs.cs544.controller"})
 @EnableScheduling
 @EnableJms
 public class Application implements CommandLineRunner {

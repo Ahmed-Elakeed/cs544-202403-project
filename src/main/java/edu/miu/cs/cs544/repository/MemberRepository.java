@@ -22,6 +22,6 @@ public interface MemberRepository extends BaseRepository<Member, Long>{
     @Modifying
     @Transactional
     void deleteRoleForMember(@Param(value = "memberId") Long memberId,@Param(value = "roleId") Long roleId);
-    @Query(value = "select s from Session s left join fetch s.members m where m.id = :memberId")
-    List<Session> fetchAllSessionForMember(@Param("memberId") Long memberId);
+    @Query(value = "select s from Session s inner join fetch s.members m where m.id = :memberID")
+    List<Session> fetchAllSessionForMember(@Param("memberID") Long memberID);
 }

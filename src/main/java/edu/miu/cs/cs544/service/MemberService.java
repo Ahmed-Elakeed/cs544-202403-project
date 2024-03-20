@@ -17,14 +17,11 @@ public interface MemberService extends BaseReadWriteService <MemberPayload, Memb
 	AttendanceResponseDTO attendanceForMemberByEvent(Long memberId, Long eventId);
 
     List<Role> getAllRolesForMember(Long memberId);
+    AttendanceResponseDTO getAttendance(Long id);
 
-    AttendanceResponseDTO getAttendence(Long id);
-
-    Role getRoleForMember(Long memberId, Long roleId);
-
-    Role createRole(Long memberId, Role role);
+    Role getRoleForMember(Long memberId,Long roleId);
 
     Role updateRole(Long memberId, Role role);
-
-    String deleteRoleForMember(Long memberId, Long roleId);
+    Role createRole(Long memberId, Role role);
+    String deleteRoleForMember(Long memberId,Long roleId);
 }
