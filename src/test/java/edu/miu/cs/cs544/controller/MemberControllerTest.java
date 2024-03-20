@@ -1,19 +1,15 @@
 package edu.miu.cs.cs544.controller;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import edu.miu.cs.cs544.service.MemberService;
-import edu.miu.common.config.properties.CommonProperties;
 import edu.miu.cs.cs544.dto.AttendanceRecord;
 import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
 
@@ -47,9 +43,10 @@ public class MemberControllerTest {
         mockMvc.perform(get("/members/{memberId}/events/{eventId}/attendance", memberId, eventId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-        		.andExpect(MockMvcResultMatchers.jsonPath("$.count").value(2))
+        		.andExpect(MockMvcResultMatchers.jsonPath("$.count").value(3))
         		.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[0].memberId").value(1))
         		.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[1].memberId").value(2))
         		;
     }
+	
 }
