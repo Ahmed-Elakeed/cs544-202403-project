@@ -1,6 +1,7 @@
 package edu.miu.cs.cs544.repository;
 
 import edu.miu.common.repository.BaseRepository;
+import edu.miu.cs.cs544.domain.AccountType;
 import edu.miu.cs.cs544.domain.Scanner;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +25,7 @@ public interface ScannerRepository
     @Modifying
     @Transactional
     void deleteScanRecord(Long scannerId, Long recordId);
+
+    @Query(value = "select count(sr) from scan_records sr where sr.member.id = :memberId and sr.event.accountType = :accountType")
+    Integer fetchMemberAttendanceBalanceByAccount(@Param(value = "memberId") Long memberId,@Param(value = "accountType") AccountType accountType);
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import lombok.Data;
+
 import org.springframework.stereotype.Service;
 
 import edu.miu.common.service.BaseReadWriteServiceImpl;
@@ -25,7 +25,7 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
 	
 	private final MemberRepository memberRepository;
     @Override
-    public  List <Role> getAllRoleForMember (Long memberId) {
+    public  List <Role> getAllRolesForMember (Long memberId) {
         Optional <Member>  memberOptional  = this.memberRepository. findById (memberId);
         if(memberOptional.isPresent())  {
             Member  member = memberOptional.get();
@@ -92,7 +92,7 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
     @Override
     public AttendanceResponseDTO attendanceForMemberByEvent(Long memberId, Long eventId) {
         List<Event> events = this.memberRepository.attendanceData(eventId);
-        List<AttendanceRecord> attendanceRecordList = new ArrayList();
+        List<AttendanceRecord> attendanceRecordList = new ArrayList<>();
         for (Event event : events) {
             Schedule schedule = event.getSchedule();
             List<Session> sessions = schedule.getSessions();
@@ -119,7 +119,7 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
     }
 	
     @Override
-    public AttendanceResponseDTO getAttendence(Long memberId) {
+    public AttendanceResponseDTO getAttendance(Long memberId) {
         List<Session> sessions = this.memberRepository.fetchAllSessionForMember(memberId);
         List<AttendanceRecord> attendanceRecordList = new ArrayList<>();
         for(Session session:sessions){
