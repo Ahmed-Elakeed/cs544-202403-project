@@ -1,9 +1,7 @@
 package edu.miu.cs.cs544.service;
-import edu.miu.common.service.mapper.BaseMapper;
 
+import edu.miu.common.service.mapper.BaseMapper;
 import edu.miu.cs.cs544.domain.*;
-import edu.miu.cs.cs544.dto.AttendanceRecord;
-import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
 import edu.miu.cs.cs544.repository.MemberRepository;
 import edu.miu.cs.cs544.service.contract.MemberPayload;
 import edu.miu.cs.cs544.service.mapper.AccountToAccountPayloadMapper;
