@@ -62,7 +62,7 @@ public class MemberRepositoryTests {
         entityManager.flush();
         
         List<Event> foundSessions = memberRepository.attendanceData(event.getId());
-//        assertThat(foundSessions).hasSize(1);
+        assertThat(foundSessions).hasSize(1);
 //        assertThat(foundSessions.get(0).getName()).isEqualTo(session2.getName());
 
         

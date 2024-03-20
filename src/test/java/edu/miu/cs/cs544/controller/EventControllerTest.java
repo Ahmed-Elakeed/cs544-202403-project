@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.Controller;
+package edu.miu.cs.cs544.controller;
 
 import edu.miu.cs.cs544.controller.AccountController;
 import edu.miu.cs.cs544.controller.EventController;
