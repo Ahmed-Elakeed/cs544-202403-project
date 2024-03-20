@@ -48,7 +48,7 @@ INSERT INTO scanner (id, account_type, scanner_code, event_id, location_id) VALU
                     (3, 3, '789', 6, 3);
 
 -- Insert dummy data for ScanRecord
-INSERT INTO scan_records (scan_date_time, id, member_id, session_id, event_id,scanner_id) VALUES
-                         ('2024-04-01 10:30:00', 1, 4, 1, 4, 1),
-                         ('2024-03-20 14:30:00', 2, 2, 2, 2),
-                         ('2024-05-01 08:30:00', 3, 3, 3, 3);
+INSERT INTO scan_records (id, scan_date_time, member_id, session_id, event_id,scanner_id) VALUES
+                         (1, '2024-04-01 10:30:00', 1, 4, 1, 4),
+                         (2, '2024-03-20 14:30:00', 2, 2, 2, 2),
+                         (3, '2024-05-01 08:30:00', 3, 3, 3, 3);
