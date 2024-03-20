@@ -2,6 +2,7 @@ package edu.miu.cs.cs544.Controller;
 
 import edu.miu.cs.cs544.controller.AccountController;
 import edu.miu.cs.cs544.controller.EventController;
+import edu.miu.cs.cs544.domain.Member;
 import edu.miu.cs.cs544.domain.Session;
 import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
 import edu.miu.cs.cs544.mapper.JsonParser;
@@ -26,6 +27,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -62,19 +66,29 @@ public class EventControllerTest {
 
     @Test
     public void getAllSessionsForEventTest() throws Exception {
-        String data = "{\"id\":1,\"name\":\"Session 1\",\"description\":\"Monday\",\"startDateTime\":\"2024-03-18T22:30:23.000+00:00\",\"endDateTime\":\"2024-03-19T01:30:00.000+00:00\"}";
-        SessionPayload expectedData = JsonParser.parseJsonToObject(data, SessionPayload.class);
-        Mockito.when(eventService.getSessionForEvent(1L, 1L)).thenReturn(expectedData);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date start = dateFormat.parse("2024-04-01");
+        Date end = dateFormat.parse("2024-04-03");
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/events/1/sessions/1")
+        SessionPayload sessionPayload = SessionPayload.builder()
+                .id(1L)
+                .name("Session 1")
+                .description("Monday")
+                .startDateTime(start)
+                .endDateTime(end)
+                .build();
+
+        Mockito.when(eventService.getSessionForEvent(1L, 1L)).thenReturn(sessionPayload);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/events/{eventId}/sessions/{sessionId}", 1L, 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Session 1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Monday"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.startDateTime").value("2024-03-18T22:30:23.000+00:00"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.endDateTime").value("2024-03-19T01:30:00.000+00:00"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.startDateTime").value("2024-04-01T05:00:00.000+00:00"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.endDateTime").value("2024-04-03T05:00:00.000+00:00"));
     }
 
 }
