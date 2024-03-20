@@ -14,7 +14,6 @@ public interface ScannerRepository
 
     Optional<Scanner> findScannerByScannerCode(String scannerCode);
 
-
     @Query(value = "insert into member_sessions(member_id,session_id) values(:memberId,:sessionId)",nativeQuery = true)
     @Modifying
     @Transactional

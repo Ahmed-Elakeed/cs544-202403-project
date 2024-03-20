@@ -8,6 +8,7 @@ import edu.miu.cs.cs544.repository.ScannerRepository;
 import edu.miu.cs.cs544.service.contract.ScanRecordPayload;
 import edu.miu.cs.cs544.service.contract.ScannerPayload;
 import edu.miu.cs.cs544.service.mapper.ScanRecordMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.Controller;
+package edu.miu.cs.cs544.controller;
 
 import edu.miu.common.controller.BaseReadWriteController;
 import edu.miu.cs.cs544.domain.Scanner;
@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/scanners")
@@ -52,7 +53,6 @@ public class ScannerController
             @PathVariable String scannerCode,
             @PathVariable Long recordId
     ) {
-        scannerService.deleteScanRecordByScannerCodeAndRecordId(scannerCode, recordId);
         return ResponseEntity.ok(this.scannerService.deleteScanRecordByScannerCodeAndRecordId(scannerCode,recordId));
     }
 }

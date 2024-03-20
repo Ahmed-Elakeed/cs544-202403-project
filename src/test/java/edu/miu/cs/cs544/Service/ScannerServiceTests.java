@@ -8,6 +8,7 @@ import edu.miu.cs.cs544.service.ScannerService;
 import edu.miu.cs.cs544.service.contract.ScanRecordPayload;
 import javassist.NotFoundException;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -31,6 +32,9 @@ public class ScannerServiceTests {
 
     @InjectMocks
     private ScannerService scannerService;
+
+    @BeforeAll
+
 
     @Test
     public void testGetScanRecordByScannerCodeAndRecordId_Success() {
