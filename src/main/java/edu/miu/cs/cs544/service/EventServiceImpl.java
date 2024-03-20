@@ -15,7 +15,7 @@ import edu.miu.cs.cs544.service.mapper.MemberMapper;
 import edu.miu.cs.cs544.service.mapper.SessionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.ErrorResponseException;
+
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
@@ -177,9 +178,24 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
                 accountList
                         .forEach(ac->{
                             if(ac.getAccountType() == eventAccountType){
-                                event.getMembers().add(member);
-                                this.eventRepository.save(event);
-                                flag.set(true);
+//                                AtomicBoolean memberFlag = new AtomicBoolean(false);
+//                                event.getMembers().stream().forEach(mem->{
+//                                    if(mem.getId().equals(member.getId())){
+//                                        memberFlag.set(true);
+//                                    }
+//                                });
+//                                if(!memberFlag.get()){
+//                                    event.getMembers().add(member);
+//                                    this.eventRepository.save(event);
+//                                    flag.set(true);
+//                                }
+                                if(event.getMembers().stream().noneMatch(mem -> mem.getId().equals(member.getId()))){
+                                    event.getMembers().add(member);
+                                    this.eventRepository.save(event);
+                                    flag.set(true);
+                                }else{
+                                    throw new NotFoundException("Member already exist in event.");
+                                }
                             }
                         });
             }
@@ -189,7 +205,7 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
                 throw new NotFoundException("Member don't have the role or account to add into this event.");
             }
         }else{
-            throw new NotFoundException("This event not exist");
+            throw new NotFoundException("This event or member not exist");
         }
     }
 }
