@@ -25,5 +25,5 @@ public interface EventService extends BaseReadWriteService<EventPayload, Event, 
 
      AttendanceResponseDTO getAttendanceForEvent(Long eventId);
 
-     MemberPayload addMemberToEventById(Long eventId, MemberPayload memberPayload);
+     MemberPayload addMemberToEventById(Long eventId, Long memberId);
 }

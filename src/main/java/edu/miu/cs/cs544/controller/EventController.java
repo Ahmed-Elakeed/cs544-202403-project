@@ -48,8 +48,8 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
         return ResponseEntity.ok(this.eventService.deleteSessionFromEvent(eventId, sessionId));
     }
 
-    @PostMapping(path = "/{eventId}/member")
-    public ResponseEntity<?> addMemberToEventById(@PathVariable(value = "eventId") Long eventId, @RequestBody MemberPayload memberPayload) {
-        return ResponseEntity.ok(this.eventService.addMemberToEventById(eventId, memberPayload));
+    @PostMapping(path = "/{eventId}/member/{memberId}")
+    public ResponseEntity<?> addMemberToEventById(@PathVariable(value = "eventId") Long eventId, @PathVariable(value = "memberId") Long memberId) {
+        return ResponseEntity.ok(this.eventService.addMemberToEventById(eventId, memberId));
     }
 }
