@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.controller;
+package edu.miu.cs.cs544.Controller;
 
 import edu.miu.common.controller.BaseReadWriteController;
 import edu.miu.cs.cs544.domain.Scanner;
@@ -42,7 +42,9 @@ public class ScannerController
         return ResponseEntity.ok(scanRecord);
     }
     @PostMapping(path = "/{scannerCode}/records")
-    public ResponseEntity<ScanRecordPayload> addRecordToScanner(@PathVariable(value = "scannerCode") String scannerCode,@RequestBody ScanRecordPayload scanRecordPayload){
+    public ResponseEntity<ScanRecordPayload> addRecordToScanner(
+            @PathVariable(value = "scannerCode") String scannerCode,
+            @RequestBody ScanRecordPayload scanRecordPayload){
         return ResponseEntity.ok(this.scannerService.createRecordForScanner(scannerCode,scanRecordPayload));
     }
     @DeleteMapping("/{scannerCode}/records/{recordId}")

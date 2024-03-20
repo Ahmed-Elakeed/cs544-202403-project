@@ -50,7 +50,7 @@ public class ScannerServiceImpl
                 return ScanRecordMapper.toScanRecordPayload(scanRecordOptional.get());
             }
         }
-        throw new NotFoundException("Scanner or record not exist");
+        throw new NotFoundException("Scanner or record doesn't exist");
     }
 
     @Override
@@ -58,9 +58,9 @@ public class ScannerServiceImpl
         Optional<Scanner> scannerOptional = this.scannerRepository.findScannerByScannerCode(scannerCode);
         if (scannerOptional.isPresent()) {
             this.scannerRepository.deleteScanRecord(scannerOptional.get().getId(), recordId);
-            return "Deleted";
+            return "Record deleted";
         }
-        return "Scanner not found";
+        return "Scanner doesn't found";
     }
 
     @Override
@@ -85,7 +85,7 @@ public class ScannerServiceImpl
             }
         } catch (Exception exception) {
             if (scannerOptional.isPresent()) {
-                throw new NotFoundException("Event, session, member or all not exist");
+                throw new NotFoundException("Event, session, member or all don't exist");
             }
             throw new NotFoundException("Scanner not found");
         }
