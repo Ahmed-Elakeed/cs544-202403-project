@@ -1,21 +1,21 @@
 package edu.miu.cs.cs544.service;
 
 import edu.miu.common.service.BaseReadWriteServiceImpl;
-import edu.miu.cs.cs544.domain.Event;
-import edu.miu.cs.cs544.domain.Member;
-import edu.miu.cs.cs544.domain.Schedule;
-import edu.miu.cs.cs544.domain.Session;
+import edu.miu.cs.cs544.domain.*;
 import edu.miu.cs.cs544.dto.AttendanceRecord;
 import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
 import edu.miu.cs.cs544.exception.InvalidCredentialsException;
 import edu.miu.cs.cs544.exception.NotFoundException;
 import edu.miu.cs.cs544.repository.EventRepository;
-import edu.miu.cs.cs544.service.contract.AttendanceDTO;
+import edu.miu.cs.cs544.repository.MemberRepository;
 import edu.miu.cs.cs544.service.contract.EventPayload;
+import edu.miu.cs.cs544.service.contract.MemberPayload;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
+import edu.miu.cs.cs544.service.mapper.MemberMapper;
 import edu.miu.cs.cs544.service.mapper.SessionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.ErrorResponseException;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +33,7 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
 
     private final EventRepository eventRepository;
 
+    private final MemberRepository memberRepository;
     @Override
     public List<SessionPayload> getAllSessionsForEvent(Long eventId) {
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
@@ -156,11 +158,38 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
     }
     private LocalDate convertDateToLocalDate(Date date){
         Instant instant = date.toInstant();
-
-        // Convert Instant to LocalDateTime (using system default time zone)
         LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
-
-        // Extract LocalDate from LocalDateTime
        return localDateTime.toLocalDate();
+    }
+
+    @Override
+    public MemberPayload addMemberToEventById(Long eventId, Long memberId){
+        Optional<Event> eventOptional = this.eventRepository.findById(eventId);
+        Optional<Member> memberOptional = this.memberRepository.findById(memberId);
+        if(eventOptional.isPresent() && memberOptional.isPresent()){
+            Member member = memberOptional.get();
+            Event event = eventOptional.get();
+            AccountType eventAccountType = event.getAccountType();
+            List<Role> memberRoles = member.getRoles();
+            AtomicReference<Boolean> flag = new AtomicReference<>(false);
+            for(Role role: memberRoles){
+                List<Account> accountList = role.getAccounts();
+                accountList
+                        .forEach(ac->{
+                            if(ac.getAccountType() == eventAccountType){
+                                event.getMembers().add(member);
+                                this.eventRepository.save(event);
+                                flag.set(true);
+                            }
+                        });
+            }
+            if(flag.get()){
+                return MemberMapper.toMemberPayload(member);
+            }else{
+                throw new NotFoundException("Member don't have the role or account to add into this event.");
+            }
+        }else{
+            throw new NotFoundException("This event not exist");
+        }
     }
 }
