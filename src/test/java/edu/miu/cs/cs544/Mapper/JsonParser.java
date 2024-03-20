@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.mapper;
+package edu.miu.cs.cs544.Mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;

@@ -1,32 +1,20 @@
 package edu.miu.cs.cs544.Service;
 
 
-import edu.miu.cs.cs544.Application;
-import edu.miu.cs.cs544.controller.EventController;
-import edu.miu.cs.cs544.domain.Member;
-import edu.miu.cs.cs544.domain.Session;
-import edu.miu.cs.cs544.mapper.JsonParser;
+import edu.miu.cs.cs544.Mapper.JsonParser;
 import edu.miu.cs.cs544.service.EventService;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Appendable.class)

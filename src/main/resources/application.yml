@@ -19,8 +19,8 @@ spring:
     name: cs544-202403-project
   datasource:
     url: jdbc:mysql://localhost:3306/attendance_system_db
-    password: 12345678
-    username: root
+    password: SSjohn55Y$
+    username: enyonathan
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximumPoolSize: 10
