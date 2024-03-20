@@ -109,5 +109,34 @@ public class MemberServiceTest {
 		assertThat(found.getAttendanceRecordList().get(0).getSessionId()).isEqualTo(4);
 		assertThat(found.getAttendanceRecordList().get(1).getSessionId()).isEqualTo(5);
 	}
-	
+
+	@Test
+	public void testGetAttendence() {
+		Long memberId = 1l;
+		AttendanceResponseDTO found = memberService.getMemberAttendance(memberId);
+		assertThat(found.getCount()).isEqualTo(2);
+		assertThat(found.getAttendanceRecordList().get(0).getSessionId()).isEqualTo(4);
+		assertThat(found.getAttendanceRecordList().get(1).getSessionId()).isEqualTo(5);
+	}
+	@Test
+	public void testGetAttendanceForNonExistentMember() {
+		Long memberId = 100L; // Assuming member ID 100 does not exist
+		AttendanceResponseDTO found = memberService.getMemberAttendance(memberId);
+		assertThat(found.getCount()).isEqualTo(0);
+		assertThat(found.getAttendanceRecordList()).isEmpty();
+	}
+	@Test
+	public void testGetAttendanceForMemberWithNoRecords() {
+		Long memberId = 2L; // Assuming member ID 2 has no attendance records
+		AttendanceResponseDTO found = memberService.getMemberAttendance(memberId);
+		assertThat(found.getCount()).isEqualTo(0);
+		assertThat(found.getAttendanceRecordList()).isEmpty();
+	}
+	@Test
+	public void testGetAttendanceWithNullMemberId() {
+		Long memberId = null;
+		AttendanceResponseDTO found = memberService.getMemberAttendance(memberId);
+		assertThat(found.getCount()).isEqualTo(0);
+		assertThat(found.getAttendanceRecordList()).isEmpty();
+	}
 }

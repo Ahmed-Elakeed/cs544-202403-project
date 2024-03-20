@@ -49,6 +49,6 @@ public class MemberController extends BaseReadWriteController<MemberPayload, Mem
 
     @GetMapping(path = "/{memberId}/attendance")
     public ResponseEntity<?> getAllSessionsForEvent(@PathVariable(value = "memberId") Long memberId) {
-        return ResponseEntity.ok(this.memberService.getAttendance(memberId));
+         return ResponseEntity.ok(this.memberService.getMemberAttendance(memberId));
     }
 }

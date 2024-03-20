@@ -17,7 +17,7 @@ public interface MemberService extends BaseReadWriteService <MemberPayload, Memb
 	AttendanceResponseDTO attendanceForMemberByEvent(Long memberId, Long eventId);
 
     List<Role> getAllRolesForMember(Long memberId);
-    AttendanceResponseDTO getAttendance(Long id);
+    AttendanceResponseDTO getMemberAttendance(Long id);
 
     Role getRoleForMember(Long memberId,Long roleId);
 
