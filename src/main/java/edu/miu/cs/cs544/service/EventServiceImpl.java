@@ -178,17 +178,6 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
                 accountList
                         .forEach(ac->{
                             if(ac.getAccountType() == eventAccountType){
-//                                AtomicBoolean memberFlag = new AtomicBoolean(false);
-//                                event.getMembers().stream().forEach(mem->{
-//                                    if(mem.getId().equals(member.getId())){
-//                                        memberFlag.set(true);
-//                                    }
-//                                });
-//                                if(!memberFlag.get()){
-//                                    event.getMembers().add(member);
-//                                    this.eventRepository.save(event);
-//                                    flag.set(true);
-//                                }
                                 if(event.getMembers().stream().noneMatch(mem -> mem.getId().equals(member.getId()))){
                                     event.getMembers().add(member);
                                     this.eventRepository.save(event);
