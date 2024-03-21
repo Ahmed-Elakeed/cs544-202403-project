@@ -35,8 +35,8 @@ public class MemberControllerTest {
 	private MemberService memberService;
 	
 
-	@Test 
-	public void testAttendanceForMemberByEvent() throws Exception { 
+	@Test
+	public void testAttendanceForMemberByEvent() throws Exception {
         Long memberId = 1L;
         Long eventId = 1L;
         
@@ -53,5 +53,47 @@ public class MemberControllerTest {
         		.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[0].memberId").value(1))
         		.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[1].memberId").value(2))
         		;
-    } 
+    }
+
+
+	@Test
+	public void testgetAllSessionsForEvent() throws Exception {
+		Long memberId = 1L;
+		List<AttendanceRecord> attendanceRecords = new ArrayList<AttendanceRecord>();
+		attendanceRecords.add(new AttendanceRecord(1l, "John", "Doe", 1l, "Kickoff event for Spring Festival", "Spring Festival Opening Ceremony"));
+		attendanceRecords.add(new AttendanceRecord(2l, "fn2", "ln2", 2l, "sess2", "Session 2 planned"));
+		AttendanceResponseDTO response = new AttendanceResponseDTO(2, attendanceRecords);
+		Mockito.when(memberService.getMemberAttendance(memberId)).thenReturn(response);
+
+		mockMvc.perform(get("/members/{memberId}/attendance", memberId)
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.count").value(2))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[0].memberId").value(1))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[1].memberId").value(2))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[1].memberFirstName").value("fn2"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[1].memberLastName").value("ln2"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[0].memberFirstName").value("John"));
+	}
+	@Test
+	public void testGetAllSessionsForEventNoAttendanceRecords() throws Exception {
+		Long memberId = 1L;
+		List<AttendanceRecord> attendanceRecords = new ArrayList<>();
+		// Empty attendance records
+		AttendanceResponseDTO response = new AttendanceResponseDTO(0, attendanceRecords);
+		Mockito.when(memberService.getMemberAttendance(memberId)).thenReturn(response);
+
+		mockMvc.perform(get("/members/{memberId}/attendance", memberId)
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.count").value(0))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList").isArray())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList").isEmpty());
+	}
+	@Test
+	public void testGetAttendanceWithoutIdBadRequest() throws Exception {
+		mockMvc.perform(get("/members/attendance")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest());
+	}
 }
