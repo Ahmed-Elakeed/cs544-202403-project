@@ -40,7 +40,7 @@ public class ScannerServiceImpl
                     .map(ScanRecordMapper::toScanRecordPayload)
                     .toList()).orElseGet(ArrayList::new);
         }
-        throw new NotFoundException("Scanner not found");
+        throw new NotFoundException("Scanner doesn't exist");
     }
 
     @Override
@@ -64,9 +64,9 @@ public class ScannerServiceImpl
         Optional<Scanner> scannerOptional = this.scannerRepository.findScannerByScannerCode(scannerCode);
         if (scannerOptional.isPresent()) {
             this.scannerRepository.deleteScanRecord(scannerOptional.get().getId(), recordId);
-            return "Deleted";
+            return "Record deleted";
         }
-        return "Scanner not found";
+        return "Scanner doesn't exist";
     }
 
     @Override
