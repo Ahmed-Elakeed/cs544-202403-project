@@ -195,4 +195,5 @@ public class EventServiceTest {
         assertThat("Session deleted or it was already not exist for this event").isEqualTo(eventService.deleteSessionFromEvent(1L, 1L));
     }
 
+//    @Test
 }

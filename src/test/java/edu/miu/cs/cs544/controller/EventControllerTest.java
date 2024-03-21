@@ -9,6 +9,7 @@ import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
 import edu.miu.cs.cs544.mapper.JsonParser;
 import edu.miu.cs.cs544.repository.EventRepository;
 import edu.miu.cs.cs544.service.EventService;
+import edu.miu.cs.cs544.service.contract.MemberPayload;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
 import org.junit.Before;
 import org.junit.Test;
@@ -189,6 +190,24 @@ public class EventControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").value(expected));
 
+    }
+
+    @Test
+    public void addMemberToEventByIdTest() throws Exception {
+        String expected = "{\"id\":2,\"firstName\":\"test\",\"lastName\":\"man\",\"email\":\"test@gmail.com\",\"barcode\":29834}";
+        MemberPayload data = JsonParser.parseJsonToObject(expected, MemberPayload.class);
+        Mockito.when(eventService.addMemberToEventById(1L,1L)).thenReturn(data);
+        mockMvc.perform(MockMvcRequestBuilders.post("/events/{eventId}/member/{memberId}", 1L, 1L)
+                        .param("eventId", "1")
+                        .param("memberId", "1")
+                        .contentType(MediaType.APPLICATION_JSON).content(""))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(data.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value(data.getFirstName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value(data.getLastName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value(data.getEmail()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.barcode").value(data.getBarcode()));
     }
 
     public static String asJsonString(Object obj) {
