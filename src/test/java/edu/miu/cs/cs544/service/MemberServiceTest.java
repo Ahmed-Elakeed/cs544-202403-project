@@ -114,4 +114,86 @@ public class MemberServiceTest {
 		assertThat(found.getAttendanceRecordList().get(1).getSessionName()).isEqualTo("sess name 5 event 1");
 	}
 	
+    @Test
+    void getAllRoleForMemberTest() {
+        long memberId = 1L;
+        Member member = new Member();
+        Role role = new Role();
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
+        member.setRoles(roles);
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
+
+        List<Role> result = memberService.getAllRolesForMember(memberId);
+
+        assertEquals(roles, result);
+    }
+
+    @Test
+    void getRoleForMemberTest() {
+        long memberId = 1L;
+        long roleId = 2L;
+        Member member = new Member();
+        Role role = new Role();
+        role.setId(roleId);
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
+        member.setRoles(roles);
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
+
+        Role result = memberService.getRoleForMember(memberId, roleId);
+
+        assertEquals(role, result);
+    }
+
+    @Test
+    public void testCreateRole() {
+        Long memberId = 1l;
+        Role role3 = new Role(3l, "Role3", null);
+        Role createdRole = memberService.createRole(memberId, role3);
+
+        assertThat(createdRole).isEqualTo(role3);
+        Member m = memberRepository.findById(memberId).get();
+        assertThat(m.getRoles()).toString();
+        verify(memberRepository, times(1)).save(m);
+    }
+
+
+    @Test
+    void updateRoleTest() {
+        long memberId = 1L;
+        Role role = new Role();
+        role.setId(1l);
+        Member member = new Member();
+        member.setId(1l);
+        member.setRoles(new ArrayList<>());
+        member.getRoles().add(role);
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
+
+        Role updatedRole = new Role();
+        updatedRole.setId(2l);
+        updatedRole.setRole("Updated Role");
+
+        Role result = memberService.updateRole(memberId, updatedRole);
+
+        assertEquals(updatedRole, result);
+        verify(memberRepository, times(1)).save(member);
+    }
+
+    @Test
+    public void testDeleteRoleForMember_WhenMemberExists() {
+        Long memberId = 3L;
+        Long roleId = 1L;
+        Role role1 = new Role(roleId, "Role1", null);
+        Member member = new Member();
+        member.setRoles(new ArrayList<>(List.of(role1)));
+        Mockito.when(memberRepository.findById(memberId))
+                .thenReturn(Optional.of(member));
+
+        String response = memberService.deleteRoleForMember(memberId, roleId);
+
+        assertThat(response).isEqualTo("Deleted");
+        verify(memberRepository, times(1)).deleteRoleForMember(memberId, roleId);
+    }
 }
+

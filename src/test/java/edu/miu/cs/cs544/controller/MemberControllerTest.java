@@ -1,5 +1,8 @@
 package edu.miu.cs.cs544.controller;
 
+import edu.miu.cs.cs544.dto.AttendanceRecord;
+import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
+import edu.miu.cs.cs544.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @WebMvcTest(MemberController.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class MemberControllerTest {
@@ -29,8 +35,8 @@ public class MemberControllerTest {
 	private MemberService memberService;
 	
 
-	@Test
-	public void testAttendanceForMemberByEvent() throws Exception {
+	@Test 
+	public void testAttendanceForMemberByEvent() throws Exception { 
         Long memberId = 1L;
         Long eventId = 1L;
         
@@ -47,6 +53,5 @@ public class MemberControllerTest {
         		.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[0].memberId").value(1))
         		.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[1].memberId").value(2))
         		;
-    }
-	
+    } 
 }
