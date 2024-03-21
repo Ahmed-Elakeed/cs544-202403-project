@@ -118,26 +118,25 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
                 .build();
     }
 
+    /**
+     *
+     * @param memberID member id
+     * @return attendence of member all sessions
+     */
         @Override
         public AttendanceResponseDTO getMemberAttendance(Long memberID){
                 List<Session> sessionList = memberRepository.fetchAllSessionForMember(memberID);
                 List<AttendanceRecord> attendanceList = new ArrayList<>();
                     for (Session session : sessionList) {
                         for (Member memberObj : session.getMembers()) {
-                            AttendanceRecord record = AttendanceRecord.builder()
-                                    .memberId(memberID)
-                                    .memberFirstName(memberObj.getFirstName())
-                                    .memberLastName(memberObj.getLastName())
-                                    .sessionId(session.getId())
-                                    .sessionDescription(session.getDescription())
-                                    .sessionName(session.getName())
-                                    .build();
+                            AttendanceRecord record = AttendanceRecord.builder().sessionId(session.getId())
+                                    .sessionDescription(session.getDescription()).sessionName(session.getName())
+                                    .memberId(memberID).memberFirstName(memberObj.getFirstName()).memberLastName(memberObj.getLastName()).build();
                             attendanceList.add(record);
-                        }
-                    }
-                return  AttendanceResponseDTO.builder()
-                        .count(attendanceList.size())
+                        } //adding members
+                    } //per session
+                return  AttendanceResponseDTO.builder().count(attendanceList.size())
                         .attendanceRecordList(attendanceList).build();
 
-        }
+        }//
 }
