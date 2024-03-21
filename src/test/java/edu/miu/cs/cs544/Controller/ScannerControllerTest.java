@@ -1,8 +1,6 @@
 package edu.miu.cs.cs544.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.miu.cs.cs544.Mapper.JsonParser;
-import edu.miu.cs.cs544.controller.ScannerController;
 import edu.miu.cs.cs544.service.ScannerService;
 import edu.miu.cs.cs544.service.contract.EventPayload;
 import edu.miu.cs.cs544.service.contract.MemberPayload;
@@ -21,12 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 

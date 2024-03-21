@@ -3,6 +3,7 @@ package edu.miu.cs.cs544.service;
 
 import edu.miu.common.service.mapper.BaseMapper;
 import edu.miu.cs.cs544.domain.*;
+import edu.miu.cs.cs544.repository.EventRepository;
 import edu.miu.cs.cs544.repository.ScanRecordRepository;
 import edu.miu.cs.cs544.repository.ScannerRepository;
 import edu.miu.cs.cs544.service.contract.ScanRecordPayload;
@@ -37,16 +38,16 @@ public class ScannerServiceTest {
     @Autowired
     private ScannerService scannerService;
 
-//    @InjectMocks
-//    private ScannerService scannerService;
+    @MockBean
+    EventRepository eventRepository;
 
     @TestConfiguration
     static class ScannerServiceImplTestContextConfiguration {
 //        AccountServiceImplTestContextConfiguration {
 
         @Bean
-        public ScannerService scannerService(ScannerRepository scannerRepository) {
-            return new ScannerServiceImpl(scannerRepository);
+        public ScannerService scannerService(ScannerRepository scannerRepository, EventRepository eventRepository) {
+            return new ScannerServiceImpl(scannerRepository,eventRepository);
         }
     }
 
