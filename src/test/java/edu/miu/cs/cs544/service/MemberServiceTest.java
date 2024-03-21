@@ -1,13 +1,11 @@
 package edu.miu.cs.cs544.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
+import edu.miu.common.service.mapper.BaseMapper;
+import edu.miu.cs.cs544.domain.*;
+import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
+import edu.miu.cs.cs544.repository.MemberRepository;
+import edu.miu.cs.cs544.service.contract.MemberPayload;
+import edu.miu.cs.cs544.service.mapper.AccountToAccountPayloadMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,17 +16,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import edu.miu.common.service.mapper.BaseMapper;
-import edu.miu.cs.cs544.domain.AccountType;
-import edu.miu.cs.cs544.domain.Event;
-import edu.miu.cs.cs544.domain.Member;
-import edu.miu.cs.cs544.domain.Role;
-import edu.miu.cs.cs544.domain.Schedule;
-import edu.miu.cs.cs544.domain.Session;
-import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
-import edu.miu.cs.cs544.repository.MemberRepository;
-import edu.miu.cs.cs544.service.contract.MemberPayload;
-import edu.miu.cs.cs544.service.mapper.AccountToAccountPayloadMapper;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(SpringExtension.class)
