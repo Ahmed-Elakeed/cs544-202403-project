@@ -72,4 +72,6 @@ public class AccountServiceImpl extends BaseReadWriteServiceImpl<AccountPayload,
                 .attendanceRecordList(new ArrayList<>())
                 .build();
     }
+
+
 }

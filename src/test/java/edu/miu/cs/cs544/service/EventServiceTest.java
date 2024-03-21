@@ -8,7 +8,9 @@ import edu.miu.cs.cs544.repository.MemberRepository;
 import edu.miu.cs.cs544.service.EventService;
 import edu.miu.cs.cs544.service.EventServiceImpl;
 import edu.miu.cs.cs544.service.contract.EventPayload;
+import edu.miu.cs.cs544.service.contract.MemberPayload;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
+import edu.miu.cs.cs544.service.mapper.MemberMapper;
 import edu.miu.cs.cs544.service.mapper.SessionMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -93,7 +95,6 @@ public class EventServiceTest {
         schedule = new Schedule();
         schedule.setId(1L);
         schedule.setDescription("Event 1 schedule");
-        //schedule.setStartDateTime();
         event.setSchedule(schedule);
         session1 = new Session();
         session1.setId(1L);
@@ -107,12 +108,29 @@ public class EventServiceTest {
         member.setBarcode(1);
         member.setFirstName("First Name");
         member.setLastName("Last Name");
+        Account account = new Account();
+        account.setAccountType(AccountType.DINING);
+        List<Account> accountList = new ArrayList<>();
+        accountList.add(account);
+        Role role = new Role(null, "Role1", accountList);
+        List<Role> roleList = new ArrayList<>();
+        roleList.add(role);
+        member.setRoles(roleList);
+        Member member1 = new Member();
+        member1.setId(2L);
+        member1.setFirstName("test1");
+        member1.setLastName("test1");
         members=new ArrayList<>();
         members.add(member);
+        members.add(member1);
         session1.setMembers(members);
+        event.getMembers().add(member1);
+//        event.getMembers().add(member);
         eventList=new ArrayList<>();
         eventList.add(event);
         Mockito.when(eventRepository.findById(1L)).thenReturn(Optional.ofNullable(event));
+        Mockito.when(memberRepository.findById(1L)).thenReturn(Optional.ofNullable(member));
+        Mockito.when(memberRepository.findById(2L)).thenReturn(Optional.ofNullable(member));
     }
 
     @Test
@@ -195,5 +213,18 @@ public class EventServiceTest {
         assertThat("Session deleted or it was already not exist for this event").isEqualTo(eventService.deleteSessionFromEvent(1L, 1L));
     }
 
-//    @Test
+    @Test
+    public void addMemberToEventByIdTest(){
+        Optional<Event> responseEvent = eventRepository.findById(event.getId());
+
+        if(responseEvent.isPresent()){
+            assertThat(responseEvent.get()).isEqualTo(event);
+            assertThat(responseEvent.get().getSchedule()).isEqualTo(event.getSchedule());
+        }else{
+            fail("Event not found");
+        }
+
+        MemberPayload memberPayload = MemberMapper.toMemberPayload(member);
+        assertThat(memberPayload).isEqualTo(eventService.addMemberToEventById(1L, 1L));
+    }
 }

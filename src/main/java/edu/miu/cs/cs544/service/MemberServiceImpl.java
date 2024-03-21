@@ -117,30 +117,26 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
                 .attendanceRecordList(attendanceRecordList)
                 .build();
     }
-	
-    @Override
-    public AttendanceResponseDTO getAttendance(Long memberId) {
-        List<Session> sessions = this.memberRepository.fetchAllSessionForMember(memberId);
-        List<AttendanceRecord> attendanceRecordList = new ArrayList<>();
-        for(Session session:sessions){
-            for(Member member:session.getMembers()){
-                attendanceRecordList.add(
-                        AttendanceRecord.builder()
-                                .memberId(memberId)
-                                .memberFirstName(member.getFirstName())
-                                .memberLastName(member.getLastName())
-                                .sessionId(session.getId())
-                                .sessionDescription(session.getDescription())
-                                .sessionName(session.getName())
-                                .build()
-                );
-            }
-        }
-        return AttendanceResponseDTO.builder()
-                .count(attendanceRecordList.size())
-                .attendanceRecordList(attendanceRecordList)
-                .build();
-    }
-    
 
+    /**
+     *
+     * @param memberID member id
+     * @return attendence of member all sessions
+     */
+        @Override
+        public AttendanceResponseDTO getMemberAttendance(Long memberID){
+                List<Session> sessionList = memberRepository.fetchAllSessionForMember(memberID);
+                List<AttendanceRecord> attendanceList = new ArrayList<>();
+                    for (Session session : sessionList) {
+                        for (Member memberObj : session.getMembers()) {
+                            AttendanceRecord record = AttendanceRecord.builder().sessionId(session.getId())
+                                    .sessionDescription(session.getDescription()).sessionName(session.getName())
+                                    .memberId(memberID).memberFirstName(memberObj.getFirstName()).memberLastName(memberObj.getLastName()).build();
+                            attendanceList.add(record);
+                        } //adding members
+                    } //per session
+                return  AttendanceResponseDTO.builder().count(attendanceList.size())
+                        .attendanceRecordList(attendanceList).build();
+
+        }//
 }

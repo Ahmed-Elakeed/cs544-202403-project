@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/scanners")
@@ -42,7 +43,9 @@ public class ScannerController
         return ResponseEntity.ok(scanRecord);
     }
     @PostMapping(path = "/{scannerCode}/records")
-    public ResponseEntity<ScanRecordPayload> addRecordToScanner(@PathVariable(value = "scannerCode") String scannerCode,@RequestBody ScanRecordPayload scanRecordPayload){
+    public ResponseEntity<ScanRecordPayload> addRecordToScanner(
+            @PathVariable(value = "scannerCode") String scannerCode,
+            @RequestBody ScanRecordPayload scanRecordPayload){
         return ResponseEntity.ok(this.scannerService.createRecordForScanner(scannerCode,scanRecordPayload));
     }
     @DeleteMapping("/{scannerCode}/records/{recordId}")
@@ -50,7 +53,6 @@ public class ScannerController
             @PathVariable String scannerCode,
             @PathVariable Long recordId
     ) {
-        scannerService.deleteScanRecordByScannerCodeAndRecordId(scannerCode, recordId);
         return ResponseEntity.ok(this.scannerService.deleteScanRecordByScannerCodeAndRecordId(scannerCode,recordId));
     }
 }
