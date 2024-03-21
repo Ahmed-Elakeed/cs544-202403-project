@@ -75,7 +75,7 @@ public class AccountRepositoryTest {
         return eventList;
     }
     @Test
-    public void fetchAttendanceByAccountTypeWithDateRangeDataTest() throws Exception {
+    public void fetchAttendanceByAccountTypeWithDateRangeDataTest() {
 
         List<Event> eventList=testData();
 
@@ -87,7 +87,7 @@ public class AccountRepositoryTest {
 
     }
     @Test
-    public void fetchAttendanceByAccountTypeWithNoDate() throws Exception {
+    public void fetchAttendanceByAccountTypeWithNoDate() {
 
         // when
         List<Event> found = accountRepository.fetchAttendanceByAccountTypeWithDateRangeData(AccountType.DINING, null, null);
@@ -97,7 +97,7 @@ public class AccountRepositoryTest {
 
     }
     @Test
-    public void fetchAttendanceByAccountTypeWithNoAccount() throws Exception {
+    public void fetchAttendanceByAccountTypeWithNoAccount() {
 
         // when
         List<Event> found = accountRepository.fetchAttendanceByAccountTypeWithDateRangeData(AccountType.DINING, null, null);
@@ -141,4 +141,5 @@ public class AccountRepositoryTest {
         assertThat(found1.size()).isEqualTo(0);
         assertThat(found2.size()).isEqualTo(0);
     }
+
 }

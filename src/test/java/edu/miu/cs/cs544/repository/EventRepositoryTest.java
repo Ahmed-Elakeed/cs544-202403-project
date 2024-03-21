@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.Respository;
+package edu.miu.cs.cs544.repository;
 
 public class EventRepositoryTest {
 

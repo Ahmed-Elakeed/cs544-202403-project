@@ -149,5 +149,44 @@ public class AccountServiceTest {
         assertThat(result.getCount()).isEqualTo(0);
         assertThat(result.getAttendanceRecordList()).isEmpty();
     }
+    @Test
+    public void fetchAttendanceByInvalidAccountTypeWithDateRangeDataTest() {
+        // Define an invalid account type
+        AccountType invalidAccountType = null;
+        LocalDateTime startDate = LocalDateTime.parse("2024-04-01T00:00:00" );
+        LocalDateTime endDate= LocalDateTime.parse("2024-04-03T00:00:00");
+        // Fetch attendance for the invalid account type
+        List<Event> found = accountRepository.fetchAttendanceByAccountTypeWithDateRangeData(invalidAccountType, startDate, endDate);
+
+        // Assert that the fetched list is empty
+        assertThat(found).isEmpty();
+    }
+    @Test
+    public void fetchAttendanceByValidAccountTypeWithNoEventsTest() {
+        // Define a valid account type
+        AccountType validAccountType = AccountType.DINING;
+
+        // Fetch attendance for the valid account type with a date range where no events exist
+        LocalDateTime startDateNoEvents = LocalDateTime.parse("2025-04-01T00:00:00");
+        LocalDateTime endDateNoEvents = LocalDateTime.parse("2025-04-03T00:00:00");
+        List<Event> found = accountRepository.fetchAttendanceByAccountTypeWithDateRangeData(validAccountType, startDateNoEvents, endDateNoEvents);
+
+        // Assert that the fetched list is empty
+        assertThat(found).isEmpty();
+    }
+    @Test
+    public void fetchAttendanceByAccountTypeWithInvalidDateRangeTest() {
+        // Define an invalid date range where start date is after end date
+        LocalDateTime startDateInvalid = LocalDateTime.parse("2025-04-03T00:00:00");
+        LocalDateTime endDateInvalid = LocalDateTime.parse("2025-04-01T00:00:00");
+
+        // Fetch attendance with the invalid date range
+        List<Event> found = accountRepository.fetchAttendanceByAccountTypeWithDateRangeData(AccountType.DINING, startDateInvalid, endDateInvalid);
+
+        // Assert that the fetched list is empty or handle the exception as appropriate
+        // Example assertion for an empty list:
+        assertThat(found).isEmpty();
+    }
+
 
 }
