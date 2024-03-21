@@ -12,9 +12,12 @@ server:
     context-path: /badge-system
 spring:
   security:
-    user:
-      name: admin
-      password: admin
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 710370129096-1ds2ep35gng8urabd5imho90u2b31027.apps.googleusercontent.com
+            client-secret: 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
   application:
     name: cs544-202403-project
   datasource:
