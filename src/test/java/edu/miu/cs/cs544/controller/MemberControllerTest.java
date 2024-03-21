@@ -43,7 +43,7 @@ public class MemberControllerTest {
         mockMvc.perform(get("/members/{memberId}/events/{eventId}/attendance", memberId, eventId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-        		.andExpect(MockMvcResultMatchers.jsonPath("$.count").value(3))
+        		.andExpect(MockMvcResultMatchers.jsonPath("$.count").value(2))
         		.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[0].memberId").value(1))
         		.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[1].memberId").value(2))
         		;

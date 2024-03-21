@@ -106,8 +106,12 @@ public class MemberServiceTest {
                 .build();
 		AttendanceResponseDTO found = memberService.attendanceForMemberByEvent(eventId, memberId);
 		assertThat(found.getCount()).isEqualTo(2);
+		assertThat(found.getAttendanceRecordList().get(0).getMemberId()).isEqualTo(memberId);
+		assertThat(found.getAttendanceRecordList().get(0).getMemberFirstName()).isEqualTo("firstName");
 		assertThat(found.getAttendanceRecordList().get(0).getSessionId()).isEqualTo(4);
+		assertThat(found.getAttendanceRecordList().get(0).getSessionName()).isEqualTo("sess 4 event 1");
 		assertThat(found.getAttendanceRecordList().get(1).getSessionId()).isEqualTo(5);
+		assertThat(found.getAttendanceRecordList().get(1).getSessionName()).isEqualTo("sess name 5 event 1");
 	}
 	
 }
