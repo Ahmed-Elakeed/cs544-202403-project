@@ -110,7 +110,7 @@ public class MemberServiceTest {
         member.setRoles(roles);
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
 
-        List<Role> result = memberService.getAllRoleForMember(memberId);
+        List<Role> result = memberService.getAllRolesForMember(memberId);
 
         assertEquals(roles, result);
     }
