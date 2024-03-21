@@ -12,6 +12,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import edu.miu.cs.cs544.service.MemberService;
+import edu.miu.cs.cs544.dto.AttendanceRecord;
+import edu.miu.cs.cs544.dto.AttendanceResponseDTO;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +35,8 @@ public class MemberControllerTest {
 	private MemberService memberService;
 	
 
-	@Test
-	public void testAttendanceForMemberByEvent() throws Exception {
+	@Test 
+	public void testAttendanceForMemberByEvent() throws Exception { 
         Long memberId = 1L;
         Long eventId = 1L;
         
@@ -47,5 +53,5 @@ public class MemberControllerTest {
         		.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[0].memberId").value(1))
         		.andExpect(MockMvcResultMatchers.jsonPath("$.attendanceRecordList[1].memberId").value(2))
         		;
-    }
+    } 
 }

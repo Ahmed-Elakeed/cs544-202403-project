@@ -15,10 +15,8 @@ import java.util.List;
 
 public interface MemberRepository extends BaseRepository<Member, Long>{
 
-
-
 	@Query(value = "select e from Event e inner join fetch e.schedule s inner join s.sessions ss where e.id = :eventId")
-    List<Event> attendanceData(@Param(value = "eventId") Long eventId);
+    List<Event> attendanceData(@Param(value = "eventId") Long eventId); 
 
     @Query(value = "delete from member_roles mr where mr.member_id = :memberId and mr.role_id = :roleId",nativeQuery = true)
     @Modifying

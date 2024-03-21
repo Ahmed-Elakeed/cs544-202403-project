@@ -58,10 +58,19 @@ public class MemberRepositoryTests {
         
         entityManager.flush();
         
-        List<Event> foundSessions = memberRepository.attendanceData(event.getId());
-        assertThat(foundSessions).hasSize(1);
-//        assertThat(foundSessions.get(0).getName()).isEqualTo(session2.getName());
-
+        List<Event> foundEvents = memberRepository.attendanceData(event.getId());
+        assertThat(foundEvents).hasSize(1);
+        assertThat(foundEvents.get(0).getSchedule()).isNotNull();
+        assertThat(foundEvents.get(0).getSchedule().getSessions()).hasSize(2);
+        
+        boolean memberFoundInSession = false;
+        for (Session session : foundEvents.get(0).getSchedule().getSessions()) {
+            if (session.getId().equals(session2.getId()) && session.getMembers().contains(member)) {
+                memberFoundInSession = true;
+                break;
+            }
+        }
+        assertThat(memberFoundInSession).isTrue();
 
 	}
 
@@ -93,5 +102,8 @@ public class MemberRepositoryTests {
 		entityManager.refresh(persistedMember);
 		assertFalse(persistedMember.getRoles().contains(r1));
 		assertTrue(persistedMember.getRoles().contains(r2));
+
 	}
+	
+
 }
