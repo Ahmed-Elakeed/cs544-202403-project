@@ -117,30 +117,31 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
                 .attendanceRecordList(attendanceRecordList)
                 .build();
     }
-	
+
     @Override
-    public AttendanceResponseDTO getAttendance(Long memberId) {
-        List<Session> sessions = this.memberRepository.fetchAllSessionForMember(memberId);
-        List<AttendanceRecord> attendanceRecordList = new ArrayList<>();
-        for(Session session:sessions){
-            for(Member member:session.getMembers()){
-                attendanceRecordList.add(
-                        AttendanceRecord.builder()
-                                .memberId(memberId)
-                                .memberFirstName(member.getFirstName())
-                                .memberLastName(member.getLastName())
-                                .sessionId(session.getId())
-                                .sessionDescription(session.getDescription())
-                                .sessionName(session.getName())
-                                .build()
-                );
+    public AttendanceResponseDTO getMemberAttendance(Long memberId){
+            List<Session> sessions = this.memberRepository.fetchAllSessionForMember(memberId);
+            List<AttendanceRecord> attendanceRecordList = new ArrayList<>();
+            for (Session session : sessions) {
+                for (Member member : session.getMembers()) {
+                    attendanceRecordList.add(
+                            AttendanceRecord.builder()
+                                    .memberId(memberId)
+                                    .memberFirstName(member.getFirstName())
+                                    .memberLastName(member.getLastName())
+                                    .sessionId(session.getId())
+                                    .sessionDescription(session.getDescription())
+                                    .sessionName(session.getName())
+                                    .build()
+                    );
+                }
             }
-        }
-        return AttendanceResponseDTO.builder()
-                .count(attendanceRecordList.size())
-                .attendanceRecordList(attendanceRecordList)
-                .build();
+            return AttendanceResponseDTO.builder()
+                    .count(attendanceRecordList.size())
+                    .attendanceRecordList(attendanceRecordList)
+                    .build();
+
     }
-    
+
 
 }

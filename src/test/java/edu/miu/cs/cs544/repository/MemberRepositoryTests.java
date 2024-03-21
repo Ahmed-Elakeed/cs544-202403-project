@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -62,7 +66,7 @@ public class MemberRepositoryTests {
         assertThat(foundEvents).hasSize(1);
         assertThat(foundEvents.get(0).getSchedule()).isNotNull();
         assertThat(foundEvents.get(0).getSchedule().getSessions()).hasSize(2);
-        
+
         boolean memberFoundInSession = false;
         for (Session session : foundEvents.get(0).getSchedule().getSessions()) {
             if (session.getId().equals(session2.getId()) && session.getMembers().contains(member)) {
@@ -104,6 +108,56 @@ public class MemberRepositoryTests {
 		assertTrue(persistedMember.getRoles().contains(r2));
 
 	}
-	
+
+	@Test
+	public void getMemberAttendenceTest(){
+		Session session1 = new Session();
+		session1.setName("Event 1 session 1");
+		session1.setDescription("Event 1 session 1");
+		entityManager.persist(session1);
+		Member member = new Member();
+		member.setBarcode(1);
+		member.setFirstName("First Name");
+		member.setLastName("Last Name");
+		session1.getMembers().add(member);
+		entityManager.persist(member);
+		entityManager.flush();
+		List<Session> sessionList=new ArrayList<>();
+		sessionList.add(session1);
+		// when
+		List<Session> found = memberRepository.fetchAllSessionForMember(member.getId());
+		// then
+		assertThat(found.size())
+				.isEqualTo(1);
+		assertThat(sessionList.get(0).getName())
+				.isEqualTo("Event 1 session 1");
+		assertThat(sessionList.get(0).getDescription())
+				.isEqualTo("Event 1 session 1");
+		assertThat(sessionList.get(0).getMembers().get(0).getFirstName())
+				.isEqualTo("First Name");
+	}
+	@Test
+	public void when_memberId_have_no_session() {
+		Session session1 = new Session();
+		session1.setName("Event 1 session 1");
+		session1.setDescription("Event 1 session 1");
+		entityManager.persist(session1);
+		Member member = new Member();
+		member.setBarcode(1);
+		member.setFirstName("First Name");
+		member.setLastName("Last Name");
+		entityManager.persist(member);
+		entityManager.flush();
+		List<Session> sessionList=new ArrayList<>();
+		sessionList.add(session1);
+		// when
+
+		// then
+		// When member has no associated sessions
+		List<Session> foundSessions = memberRepository.fetchAllSessionForMember(member.getId());
+		// Then
+	    assertThat(foundSessions).isEmpty();
+	}
+
 
 }
