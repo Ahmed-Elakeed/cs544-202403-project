@@ -61,7 +61,7 @@ public class ScannerServiceImpl
             this.scannerRepository.deleteScanRecord(scannerOptional.get().getId(), recordId);
             return "Record deleted";
         }
-        return "Scanner doesn't found";
+        return "Scanner doesn't exist";
     }
 
     @Override

@@ -21,7 +21,7 @@ public interface ScannerRepository
     void saveIntoMemberSession(@Param(value = "memberId") Long memberId,@Param(value = "sessionId") Long sessionId);
 
 
-    @Query(value = "delete from scan_records sr where sr.scanner_id = :scannerId && sr.id = :recordId",nativeQuery = true)
+    @Query(value = "delete from scan_records sr where sr.scanner_id = :scannerId and sr.id = :recordId",nativeQuery = true)
     @Modifying
     @Transactional
     void deleteScanRecord(Long scannerId, Long recordId);
