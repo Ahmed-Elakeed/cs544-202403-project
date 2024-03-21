@@ -1,14 +1,16 @@
 package edu.miu.cs.cs544.service;
 
 import edu.miu.common.service.BaseReadWriteServiceImpl;
-import edu.miu.cs.cs544.domain.ScanRecord;
-import edu.miu.cs.cs544.domain.Scanner;
+import edu.miu.cs.cs544.domain.*;
 import edu.miu.cs.cs544.exception.NotFoundException;
+import edu.miu.cs.cs544.repository.EventRepository;
 import edu.miu.cs.cs544.repository.ScannerRepository;
 import edu.miu.cs.cs544.service.contract.ScanRecordPayload;
 import edu.miu.cs.cs544.service.contract.ScannerPayload;
 import edu.miu.cs.cs544.service.mapper.ScanRecordMapper;
 import org.springframework.stereotype.Service;
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +22,12 @@ public class ScannerServiceImpl
 
     private final ScannerRepository scannerRepository;
 
-    public ScannerServiceImpl(ScannerRepository scannerRepository) {
+    private final EventRepository eventRepository;
+
+
+    public ScannerServiceImpl(ScannerRepository scannerRepository, EventRepository eventRepository) {
         this.scannerRepository = scannerRepository;
+        this.eventRepository = eventRepository;
     }
 
     @Override
@@ -66,27 +72,29 @@ public class ScannerServiceImpl
     @Override
     public ScanRecordPayload createRecordForScanner(String scannerCode, ScanRecordPayload scanRecordPayload) {
         Optional<Scanner> scannerOptional = this.scannerRepository.findScannerByScannerCode(scannerCode);
-        try {
-            if(scannerOptional.isPresent()) {
-                Scanner scanner = scannerOptional.get();
-                scanner.getScanRecordList().add(ScanRecordMapper.toScanRecord(scanRecordPayload));
-                this.scannerRepository.saveIntoMemberSession(scanRecordPayload.getMember().getId(), scanRecordPayload.getSession().getId());
-//                this.scannerRepository.createRecord(
-//                        LocalDateTime.now(),
-//                        scanRecordPayload.getEvent().getId(),
-//                        scanRecordPayload.getSession().getId(),
-//                        scanRecordPayload.getMember().getId(),
-//                        scanner.getId()
-//                );
-                this.scannerRepository.save(scanner);
-                return scanRecordPayload;
+
+        if (scannerOptional.isPresent()) {
+            Scanner scanner = scannerOptional.get();
+            Optional<Event> eventOptional = this.eventRepository.findById(scanRecordPayload.getEvent().getId());
+            if (eventOptional.isPresent()) {
+                Event event = eventOptional.get();
+                long isRegistered = event.getMembers().stream().filter(member -> member.getId().equals(scanRecordPayload.getMember().getId())).count();
+                long isValidSession = event.getSchedule().getSessions().stream().filter(session -> session.getId().equals(scanRecordPayload.getSession().getId())).count();
+                if (isRegistered == 0 || isValidSession == 0) {
+                    if (isRegistered == 0) {
+                        throw new NotFoundException("This member is not registered to this event");
+                    } else {
+                        throw new NotFoundException("This session is not belong to this event");
+                    }
+                }
             }else{
-                throw new NotFoundException("Scanner not found");
+                throw new NotFoundException("This event is not exist");
             }
-        } catch (Exception exception) {
-            if (scannerOptional.isPresent()) {
-                throw new NotFoundException("Event, session, member or all not exist");
-            }
+            scanner.getScanRecordList().add(ScanRecordMapper.toScanRecord(scanRecordPayload));
+            this.scannerRepository.saveIntoMemberSession(scanRecordPayload.getMember().getId(), scanRecordPayload.getSession().getId());
+            this.scannerRepository.save(scanner);
+            return scanRecordPayload;
+        } else {
             throw new NotFoundException("Scanner not found");
         }
     }

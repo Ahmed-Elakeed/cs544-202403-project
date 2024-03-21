@@ -17,5 +17,7 @@ public class AccountPayload implements Serializable {
 	
 	private String description;
 
+	private Integer balance;
+	
 	private AccountType accountType;
 }
