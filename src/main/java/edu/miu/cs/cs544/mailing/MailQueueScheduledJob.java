@@ -39,7 +39,7 @@ public class MailQueueScheduledJob {
                         member.getId(),
                         account.getAccountType()
                 );
-                if(((double) accountAttendanceBalance /account.getBalance() * 100.0) >= 95){
+                if(((double) accountAttendanceBalance /account.getBalance() * 100.0) >= 65){
                     this.jmsTemplate.convertAndSend(
                             "mail-queue",
                             MailQueueMessageDTO.builder()

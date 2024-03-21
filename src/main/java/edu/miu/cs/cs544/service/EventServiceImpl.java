@@ -25,7 +25,6 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
@@ -98,8 +97,8 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload, Eve
                     .filter(session -> session.getId().equals(sessionId))
                     .findFirst();
             if(sessionOptional.isPresent()){
-                if (!this.convertDateToLocalDate(sessionPayload.getStartDateTime()).isBefore(event.getStartDateTime())
-                        && !this.convertDateToLocalDate(sessionPayload.getEndDateTime()).isAfter(event.getEndDateTime())) {
+                if (this.convertDateToLocalDate(sessionPayload.getStartDateTime()).isAfter(event.getStartDateTime())
+                        && this.convertDateToLocalDate(sessionPayload.getEndDateTime()).isBefore(event.getEndDateTime())) {
                     Session session = sessionOptional.get();
                     session.setName(sessionPayload.getName());
                     session.setDescription(sessionPayload.getDescription());

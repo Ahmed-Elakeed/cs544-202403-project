@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class RestExceptionHandler {
 
-    @ExceptionHandler(value = NotFoundException.class)
+    @ExceptionHandler(value = {NotFoundException.class, InvalidCredentialsException.class})
     public ResponseEntity<String> notFoundExceptionHandler(Exception exception){
         return ResponseEntity.ok(exception.getMessage());
     }
